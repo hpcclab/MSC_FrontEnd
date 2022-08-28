@@ -12,16 +12,32 @@ const UploadFiles = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="files"/>
+          <Navbar isViewer={false} section="files" />
           {/** Page Content */}
-          <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} alignItems="center" justifyContent="center">
-                {/** Components go here */}
-                <Player />
+          <Box
+            component="main"
+            sx={{
+              backgroundColor: (theme) =>
+                theme.palette.mode === "light"
+                  ? theme.palette.grey[100]
+                  : theme.palette.grey[900],
+              flexGrow: 1,
+              height: "100vh",
+              overflow: "auto",
+            }}
+          >
+            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} alignItems="center" justifyContent="center">
+                  {/** Components go here */}
+                  <Grid sx={{ mt: 8, height: 825 }}>
+                    {/** Page contents go here */}
+                  </Grid>
+                  {/** End Components go here */}
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
+            </Container>
+          </Box>
         </Box>
       </ThemeProvider>
         </>

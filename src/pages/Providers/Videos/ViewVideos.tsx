@@ -1,10 +1,15 @@
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, Box, CssBaseline, Container, Grid } from "@mui/material";
 import React from "react";
+import SingleItem from "../../../components/Items/components/SingleItem";
 import Navbar from "../../../components/Navbar/Navbar";
+import Bottom from "../../../components/Pagination/Bottom";
 import Player from "../../../components/Player";
 
 const VVideos = () => {
+  const test = () => {
+    console.log(5);
+  };
   return (
     <>
       <ThemeProvider theme={createTheme()}>
@@ -13,14 +18,50 @@ const VVideos = () => {
           {/** Navbar and Sidebar */}
           <Navbar isViewer={false} section="videos" />
           {/** Page Content */}
-          <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} alignItems="center" justifyContent="center">
-                {/** Components go here */}
-                <Player />
+          <Box
+            component="main"
+            sx={{
+              backgroundColor: (theme) =>
+                theme.palette.mode === "light"
+                  ? theme.palette.grey[100]
+                  : theme.palette.grey[900],
+              flexGrow: 1,
+              height: "100vh",
+              overflow: "auto",
+            }}
+          >
+            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} alignItems="center" justifyContent="center">
+                  {/** Components go here */}
+                  <Grid sx={{ mt: 8, height: 825 }}>
+                    {/** Page contents go here */}
+                    <SingleItem
+                      title="test"
+                      desc="test desc"
+                      state="ready"
+                      thumbnail={""}
+                    />
+                    <SingleItem
+                      title="test"
+                      desc="test desc"
+                      state="ready"
+                      thumbnail={""}
+                    />
+                  </Grid>
+                  {/** Pagination and Upload Button */}
+                  <Bottom
+                    count={5}
+                    currentPage={2}
+                    handleChange={test}
+                    redirect="/sp-upload-video"
+                    canUpload={true}
+                  />
+                  {/** End Components go here */}
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
+            </Container>
+          </Box>
         </Box>
       </ThemeProvider>
     </>

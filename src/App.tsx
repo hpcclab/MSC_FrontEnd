@@ -14,6 +14,7 @@ import ViewClasses from "./pages/Providers/Objects/Classes/ViewClasses";
 import ViewObjects from "./pages/Providers/Objects/ViewObjects";
 import UploadVideos from "./pages/Providers/Videos/UploadVideos";
 import ViewVideos from "./pages/Providers/Videos/ViewVideos";
+import { Switch } from "@mui/material";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path='/sp-class-list' element={<ViewClasses />}/>
           <Route path='/sp-object-list' element={<ViewObjects />}/>
           <Route path='/sp-upload-object' element={<UploadClasses />}/>
+          <Route path='/test/:test' element={<UploadClasses />}/>
         <Route path="*" element={<ViewerHome />} />
       </Routes>
     </Router>

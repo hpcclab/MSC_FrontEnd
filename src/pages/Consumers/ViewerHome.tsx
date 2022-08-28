@@ -1,9 +1,10 @@
 import { ThemeProvider } from "@emotion/react";
-import { createTheme, CssBaseline, Grid } from "@mui/material";
+import { createTheme, CssBaseline, Grid, Paper, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Player from "../../components/Player";
+import VideoInfo from "../../components/VideoInfo";
 import logo from "../logo.svg";
 const mdTheme = createTheme();
 
@@ -16,8 +17,9 @@ const ViewerHome = () => {
           {/** Navbar and Sidebar */}
           <Navbar isViewer={true} section="viewer" />
           {/** Page Content */}
+          
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} sx={{mt: 8}}>
               <Grid
                 item
                 xs={12}
@@ -26,6 +28,8 @@ const ViewerHome = () => {
               >
                 {/** Components go here */}
                   <Player />
+                  
+                  <VideoInfo title="title" desc="desc123"/>
               </Grid>
             </Grid>
           </Container>
