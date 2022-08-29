@@ -1,6 +1,6 @@
 import { Paper, Grid, ButtonBase, Typography } from "@mui/material";
 import React from "react";
-import Thumbnail from "./Thumbnail";
+import Thumbnail from "./components/Thumbnail";
 
 const SingleItem: React.FC<{
   title: string;

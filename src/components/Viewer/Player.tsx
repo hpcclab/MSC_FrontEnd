@@ -55,7 +55,7 @@ const Player: React.FC<{videoId: string | undefined}> = (props) => {
         //console.log(hls);
         //console.log(videoEl.current, 5);
         if (hls != null) {
-          console.log(2);
+          //console.log(2);
           hls.loadSource(
             //src
             'http://cds.10.131.36.40.nip.io/oal/'+ props.videoId +'/video.m3u8'

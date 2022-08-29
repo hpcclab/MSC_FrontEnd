@@ -5,6 +5,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ClassesSidebar from "./components/ClassesSidebar";
 import axios from "axios";
 
+import DropDown from "../../Items/components/DropDown";
+
 const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefined }> = (props) => {
   const [showClasses, setShowClasses] = useState(true);
   const [data, setData] = useState<any>([]);
@@ -19,6 +21,10 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
     if (showClasses)
       getTotalItems();
   }, [showClasses]);
+
+  const handleToggleDropdown = () => {
+    setShowClasses(!showClasses);
+  }
   
   const renderClasses = () => {
     return (
@@ -71,25 +77,7 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
             >
               <Typography variant="h4">Objects</Typography>
             </Button>
-            {showClasses ? (
-              <Button>
-                <KeyboardArrowUpIcon
-                  onClick={() => {
-                    setShowClasses(false);
-                  }}
-                  fontSize="large"
-                />
-              </Button>
-            ) : (
-              <Button>
-                <KeyboardArrowDownIcon
-                  onClick={() => {
-                    setShowClasses(true);
-                  }}
-                  fontSize="large"
-                />
-              </Button>
-            )}
+            <DropDown toggle={showClasses} onToggle={handleToggleDropdown} />
           </Paper>
           {showClasses && (
             <Box sx={{ height: 420, overflow: "auto" }}>

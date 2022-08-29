@@ -3,8 +3,9 @@ import { createTheme, Box, CssBaseline, Container, Grid, Button } from "@mui/mat
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Navbar from "../../../../components/Navbar/Navbar";
-import Player from "../../../../components/Player";
+import Player from "../../../../components/Viewer/Player";
 import OaaS from '../../../../APIs/OaaSAPI'
+import UploadTitle from "../../../../components/Upload/UploadTitle";
 
 type urlParams = {
   test: string;
@@ -42,8 +43,9 @@ const UploadClasses = () => {
               overflow: "auto",
             }}
           >
-            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+            <Container maxWidth="xl" sx={{ mt: 12, mb: 4 }}>
               <Grid container spacing={3}>
+                <UploadTitle title="Create Class"/>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
                   <Grid sx={{ mt: 8, height: 825 }}>

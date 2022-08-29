@@ -2,7 +2,8 @@ import { ThemeProvider } from "@emotion/react";
 import { createTheme, Box, CssBaseline, Container, Grid } from "@mui/material";
 import React from "react";
 import Navbar from "../../../components/Navbar/Navbar";
-import Player from "../../../components/Player";
+import Player from "../../../components/Viewer/Player";
+import UploadTitle from "../../../components/Upload/UploadTitle";
 
 const UploadFunctions = () => {
   return (
@@ -25,8 +26,9 @@ const UploadFunctions = () => {
               overflow: "auto",
             }}
           >
-            <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+            <Container maxWidth="xl" sx={{ mt: 12, mb: 4 }}>
               <Grid container spacing={3}>
+                <UploadTitle title="Create Function"/>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
                   <Grid sx={{ mt: 8, height: 825 }}>

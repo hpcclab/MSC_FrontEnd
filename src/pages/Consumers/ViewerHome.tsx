@@ -3,8 +3,8 @@ import { createTheme, CssBaseline, Grid, Paper, Typography } from "@mui/material
 import { Box, Container } from "@mui/system";
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Player from "../../components/Player";
-import VideoInfo from "../../components/VideoInfo";
+import Player from "../../components/Viewer/Player";
+import VideoInfo from "../../components/Viewer/VideoInfo";
 import logo from "../logo.svg";
 const mdTheme = createTheme();
 

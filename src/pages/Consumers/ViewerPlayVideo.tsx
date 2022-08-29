@@ -4,8 +4,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Navbar from "../../components/Navbar/Navbar";
-import Player from "../../components/Player";
-import VideoInfo from "../../components/VideoInfo";
+import Player from "../../components/Viewer/Player";
+import VideoInfo from "../../components/Viewer/VideoInfo";
 
 type urlParams = {
   videoId: string;

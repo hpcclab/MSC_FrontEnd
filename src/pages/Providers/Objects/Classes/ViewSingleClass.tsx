@@ -4,10 +4,10 @@ import { createTheme, Box, CssBaseline, Container, Grid } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import SingleItem from '../../../../components/Items/components/SingleItem';
+import SingleItem from '../../../../components/Items/SingleItem';
 import Navbar from '../../../../components/Navbar/Navbar';
 import Bottom from '../../../../components/Pagination/Bottom';
-import Player from '../../../../components/Player';
+import Player from '../../../../components/Viewer/Player';
 
 type urlParams = {
     className: string;

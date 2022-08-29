@@ -2,7 +2,7 @@ import { ThemeProvider } from '@emotion/react';
 import { createTheme, Box, CssBaseline, Container, Grid } from '@mui/material';
 import React from 'react';
 import Navbar from '../../../components/Navbar/Navbar';
-import Player from '../../../components/Player';
+import Player from '../../../components/Viewer/Player';
 
 const ViewFiles = () => {
     return (
