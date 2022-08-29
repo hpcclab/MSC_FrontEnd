@@ -13,7 +13,7 @@ const UVideos = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="videos" />
+          <Navbar isViewer={false} section="videos" url=""/>
           {/** Page Content */}
           <Box
             component="main"
@@ -33,18 +33,7 @@ const UVideos = () => {
                   {/** Components go here */}
                   <Grid sx={{ mt: 8, height: 825 }}>
                     {/** Page contents go here */}
-                    <SingleItem
-                      title="test"
-                      desc="test desc"
-                      state="ready"
-                      thumbnail={""}
-                    />
-                    <SingleItem
-                      title="test"
-                      desc="test desc"
-                      state="ready"
-                      thumbnail={""}
-                    />
+                    
                   </Grid>
                   {/** End Components go here */}
                 </Grid>

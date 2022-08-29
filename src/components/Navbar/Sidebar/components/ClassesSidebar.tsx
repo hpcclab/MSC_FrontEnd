@@ -1,7 +1,7 @@
 import { Paper, Grid, Button, Typography } from "@mui/material";
 import React from "react";
 
-const ClassesSidebar: React.FC<{name: string; redirect: string}> = (props) => {
+const ClassesSidebar: React.FC<{name: string|undefined; redirect: string; url: string|undefined}> = (props) => {
   return (
     <>
       <Paper
@@ -15,7 +15,7 @@ const ClassesSidebar: React.FC<{name: string; redirect: string}> = (props) => {
         }}
       >
         <Grid container spacing={2} sx={{ ml: 1, width: 240 }}>
-          <Button href={props.redirect}>
+          <Button href={props.redirect} disabled={props.name === props.url}>
             <Typography noWrap>{props.name}</Typography>
           </Button>
         </Grid>

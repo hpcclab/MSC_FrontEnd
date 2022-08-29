@@ -26,7 +26,7 @@ interface fInput {
   playbackRate: Number;
 }
 
-const Player = () => {
+const Player: React.FC<{videoId: string | undefined}> = (props) => {
   // validate input
 
   // Video Source
@@ -38,16 +38,16 @@ const Player = () => {
   const [hls, setHls] = useState(new Hls());
   const videoEl = useRef<any>(null);
   const [posts, setPosts] = useState();
-  const [currentVid, setCurrentVid] = React.useState("");
+  const [currentVid, setCurrentVid] = React.useState<string | undefined>("");
 
   const [loaded, setLoaded] = useState(true);
   React.useEffect(() => {
-    if (true) {
-      console.log(5);
-      //setCurrentVid(videoId);
+    if (currentVid != props.videoId && props.videoId != '') {
+      //console.log(5);
+      setCurrentVid(props.videoId);
       setHls(new Hls());
-      console.log(hls);
-      console.log(videoEl.current);
+      //console.log(hls);
+      //console.log(videoEl.current);
       if (hls == null) {
         setHls(new Hls());
       }
@@ -57,8 +57,8 @@ const Player = () => {
         if (hls != null) {
           console.log(2);
           hls.loadSource(
-            src
-            //'http://cds.10.131.36.40.nip.io/'+ videoId +'/video.m3u8'
+            //src
+            'http://cds.10.131.36.40.nip.io/oal/'+ props.videoId +'/video.m3u8'
             //test
             //"file:../../1/video.m3u8"
           );

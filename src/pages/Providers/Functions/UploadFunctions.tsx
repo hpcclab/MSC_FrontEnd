@@ -11,7 +11,7 @@ const UploadFunctions = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="functions" />
+          <Navbar isViewer={false} section="functions" url=""/>
           {/** Page Content */}
           <Box
             component="main"

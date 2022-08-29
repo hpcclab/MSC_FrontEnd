@@ -1,11 +1,38 @@
 import { Box, Button, List, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ClassesSidebar from "./components/ClassesSidebar";
+import axios from "axios";
 
-const ProviderSidebar: React.FC<{ section: string }> = (props) => {
+const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefined }> = (props) => {
   const [showClasses, setShowClasses] = useState(true);
+  const [data, setData] = useState<any>([]);
+  const getTotalItems = async () => {
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes?limit=10000&offset=0"
+    );
+    setData(res.data.items);
+  };
+
+  useEffect(() => {
+    if (showClasses)
+      getTotalItems();
+  }, [showClasses]);
+  
+  const renderClasses = () => {
+    return (
+      <>
+      {
+        data.map((item: any) => {
+          return (
+            <ClassesSidebar name={item.name} url={props.url} redirect={"/sp-class/"+item.name} />
+          )
+        })
+      }
+      </>
+    )
+  }
 
   return (
     <>
@@ -67,7 +94,8 @@ const ProviderSidebar: React.FC<{ section: string }> = (props) => {
           {showClasses && (
             <Box sx={{ height: 420, overflow: "auto" }}>
               <List component="nav">
-                <ClassesSidebar name="classes" redirect="/sp-class-list" />
+                <ClassesSidebar name="classes" url={props.url} redirect="/sp-class-list" />
+                {renderClasses()}
               </List>
             </Box>
           )}

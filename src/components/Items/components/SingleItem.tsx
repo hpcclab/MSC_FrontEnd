@@ -6,13 +6,16 @@ const SingleItem: React.FC<{
   title: string;
   desc: string;
   state: string;
-  thumbnail: null | string;
+  thumbnail: null | string | undefined;
+  videoId: string;
+  height: number;
 }> = (props) => {
   return (
     <>
       <Paper
         variant="outlined"
         sx={{
+          height: props.height,
           p: 2,
           margin: "auto",
           flexGrow: 1,
@@ -20,11 +23,15 @@ const SingleItem: React.FC<{
             theme.palette.mode === "dark" ? "#1A2027" : "#fff",
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} >
           {props.thumbnail !== null && (
             <Grid item>
-              <ButtonBase sx={{ width: 196, height: 112 }} href="/player">
-                <Thumbnail thumbnail={props.thumbnail} />
+              <ButtonBase
+              disabled={props.state != "SUCCEEDED"}
+              sx={{ width: 196, height: 112 }} 
+              href={"/v-player/"+props.videoId}
+              >
+                <Thumbnail thumbnail={props.thumbnail}/>
               </ButtonBase>
             </Grid>
           )}
@@ -41,7 +48,7 @@ const SingleItem: React.FC<{
               </Grid>
             </Grid>
             <Grid item>
-              <Typography variant="h4" component="div" sx={{ mt: 4, ml: 10 }}>
+              <Typography variant="h4" component="div" sx={{ mt:4, ml: 10 }}>
                 {props.state}
               </Typography>
             </Grid>

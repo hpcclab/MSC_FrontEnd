@@ -5,7 +5,7 @@ import React from "react";
 const PaginationSection: React.FC<{
   count: number;
   currentPage: number;
-  handleChange: () => void;
+  handleChange: (e: any, p: any) => void;
 }> = (props) => {
   return (
     <>

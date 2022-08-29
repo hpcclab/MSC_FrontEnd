@@ -28,7 +28,7 @@ const UploadClasses = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="classes" />
+          <Navbar isViewer={false} section="classes" url=""/>
           {/** Page Content */}
           <Box
             component="main"

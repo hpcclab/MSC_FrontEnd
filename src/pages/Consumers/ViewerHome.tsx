@@ -15,7 +15,7 @@ const ViewerHome = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={true} section="viewer" />
+          <Navbar isViewer={true} section="viewer" url=""/>
           {/** Page Content */}
           
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
@@ -27,7 +27,7 @@ const ViewerHome = () => {
                 justifyContent="center"
               >
                 {/** Components go here */}
-                  <Player />
+                  
                   
                   <VideoInfo title="title" desc="desc123"/>
               </Grid>

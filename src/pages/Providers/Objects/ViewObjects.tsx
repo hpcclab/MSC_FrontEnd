@@ -1,17 +1,70 @@
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, Box, CssBaseline, Container, Grid } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import SingleItem from "../../../components/Items/components/SingleItem";
 import Navbar from "../../../components/Navbar/Navbar";
+import Bottom from "../../../components/Pagination/Bottom";
 import Player from "../../../components/Player";
 
 const ViewObjects = () => {
+  const handlePageChange = (e: any, p: any) => {
+    setCurrentPage(p);
+  };
+
+  const [totalItems, setTotalItems] = useState(1);
+  const itemCount: number = 7;
+  const pageNumbers = Math.ceil(totalItems / itemCount);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [data, setData] = useState<any>([]);
+  const getTotalItems = async () => {
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=" +
+        itemCount +
+        "&offset=" +
+        (currentPage - 1) * itemCount
+    );
+    setTotalItems(res.data.total);
+    setData(res.data.items);
+  };
+
+  useEffect(() => {
+    getTotalItems();
+  }, [currentPage]);
+
+  const renderItems = () => {
+    try {
+      return (
+        <>
+          {data.map((item: any) => {
+            return (
+              <>
+                <SingleItem
+                  title={item.embeddedRecord.title}
+                  desc={item.embeddedRecord.desc}
+                  state={item.cls}
+                  videoId={''}
+                  height={115}
+                  thumbnail={null}
+                />
+              </>
+            );
+          })}
+        </>
+      );
+    } catch (error) {
+      
+    }
+    
+  };
+
   return (
     <>
       <ThemeProvider theme={createTheme()}>
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="objects" />
+          <Navbar isViewer={false} section="objects" url=""/>
           {/** Page Content */}
           <Box
             component="main"
@@ -31,7 +84,24 @@ const ViewObjects = () => {
                   {/** Components go here */}
                   <Grid sx={{ mt: 8, height: 825 }}>
                     {/** Page contents go here */}
+                    {totalItems !== 0 ? (
+                      <>
+                      {renderItems()}
+                      </>
+                    ) : (
+                    <>
+                    </>)
+                    
+                    }
                   </Grid>
+                  {/** Pagination and Upload Button */}
+                  <Bottom
+                    count={pageNumbers}
+                    currentPage={currentPage}
+                    handleChange={handlePageChange}
+                    redirect="/"
+                    canUpload={false}
+                  />
                   {/** End Components go here */}
                 </Grid>
               </Grid>

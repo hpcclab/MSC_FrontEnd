@@ -8,7 +8,7 @@ import UploadButton from "./components/UploadButton";
 const Bottom: React.FC<{
   count: number;
   currentPage: number;
-  handleChange: () => void;
+  handleChange: (e: any, p: any) => void;
   redirect: string;
   canUpload: boolean;
 }> = (props) => {

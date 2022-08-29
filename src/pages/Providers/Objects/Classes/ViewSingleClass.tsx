@@ -1,13 +1,20 @@
-import { ThemeProvider } from "@emotion/react";
-import { createTheme, Box, CssBaseline, Container, Grid } from "@mui/material";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import SingleItem from "../../../components/Items/components/SingleItem";
-import Navbar from "../../../components/Navbar/Navbar";
-import Bottom from "../../../components/Pagination/Bottom";
-import Player from "../../../components/Player";
+import { ThemeProvider } from '@emotion/react';
+import { PropaneSharp } from '@mui/icons-material';
+import { createTheme, Box, CssBaseline, Container, Grid } from '@mui/material';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import SingleItem from '../../../../components/Items/components/SingleItem';
+import Navbar from '../../../../components/Navbar/Navbar';
+import Bottom from '../../../../components/Pagination/Bottom';
+import Player from '../../../../components/Player';
 
-const ViewFunctions = () => {
+type urlParams = {
+    className: string;
+  };
+
+const ViewSingleClass = () => {
+const className = useParams<urlParams>().className;
   const handlePageChange = (e: any, p: any) => {
     setCurrentPage(p);
   };
@@ -19,7 +26,7 @@ const ViewFunctions = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=" +
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes/"+ className +"/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -40,10 +47,10 @@ const ViewFunctions = () => {
             return (
               <>
                 <SingleItem
-                  title={item.name}
-                  desc={item.outputCls}
-                  state={item.type}
-                  videoId={item.id}
+                  title={item.embeddedRecord.title}
+                  desc={item.embeddedRecord.desc}
+                  state={item.status.taskStatus}
+                  videoId={''}
                   height={115}
                   thumbnail={null}
                 />
@@ -64,7 +71,7 @@ const ViewFunctions = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="functions" url=""/>
+          <Navbar isViewer={false} section={className} url={className}/>
           {/** Page Content */}
           <Box
             component="main"
@@ -99,7 +106,7 @@ const ViewFunctions = () => {
                     count={pageNumbers}
                     currentPage={currentPage}
                     handleChange={handlePageChange}
-                    redirect="/sp-upload-function"
+                    redirect="/sp-upload-class"
                     canUpload={true}
                   />
                   {/** End Components go here */}
@@ -111,5 +118,6 @@ const ViewFunctions = () => {
       </ThemeProvider>
     </>
   );
-};
-export default ViewFunctions;
+}
+
+export default ViewSingleClass;

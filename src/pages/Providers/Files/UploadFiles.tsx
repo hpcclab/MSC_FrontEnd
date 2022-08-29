@@ -12,7 +12,7 @@ const UploadFiles = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="files" />
+          <Navbar isViewer={false} section="files" url=""/>
           {/** Page Content */}
           <Box
             component="main"

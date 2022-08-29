@@ -61,7 +61,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const Navbar: React.FC<{ isViewer: boolean; section: string }> = (props) => {
+const Navbar: React.FC<{ isViewer: boolean; section: string | undefined; url: string | undefined }> = (props) => {
   return (
     <>
       <CssBaseline />
@@ -117,7 +117,7 @@ const Navbar: React.FC<{ isViewer: boolean; section: string }> = (props) => {
           props.isViewer ? (
             <ViewerSidebar />
           ) : (
-            <ProviderSidebar section={props.section} />
+            <ProviderSidebar section={props.section} url={props.url}/>
           )
         }
       </Drawer>

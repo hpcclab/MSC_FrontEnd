@@ -7,10 +7,10 @@ const Img = styled('img')({
     maxWidth: '100%',
     maxHeight: '100%',
 });
-const Thumbnail: React.FC<{thumbnail: string | null}> = (props) => {
+const Thumbnail: React.FC<{thumbnail: string | null | undefined}> = (props) => {
 
     const renderThumbnail = () => {
-        if (props.thumbnail === null || props.thumbnail === '') {
+        if (props.thumbnail === undefined || props.thumbnail === '') {
             return (
                 <>
                     <Img 
@@ -26,7 +26,7 @@ const Thumbnail: React.FC<{thumbnail: string | null}> = (props) => {
                 <>
                     <Img 
                     alt="complex" 
-                    src={props.thumbnail} 
+                    src={props.thumbnail?.toString()} 
                     //src="https://i.ytimg.com/vi/BH4IMzxBg14/maxresdefault.jpg" 
                     />
                 </>
