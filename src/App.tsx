@@ -9,14 +9,14 @@ import UploadFiles from "./pages/Providers/Files/UploadFiles";
 import ViewFiles from "./pages/Providers/Files/ViewFiles";
 import UploadFunctions from "./pages/Providers/Functions/UploadFunctions";
 import ViewFunctions from "./pages/Providers/Functions/ViewFunctions";
-import UploadClasses from "./pages/Providers/Objects/Classes/UploadClasses";
-import ViewClasses from "./pages/Providers/Objects/Classes/ViewClasses";
+import UploadClasses from "./pages/Providers/Classes/UploadClasses";
+import ViewClasses from "./pages/Providers/Classes/ViewClasses";
 import ViewObjects from "./pages/Providers/Objects/ViewObjects";
 import UploadVideos from "./pages/Providers/Videos/UploadVideos";
 import ViewVideos from "./pages/Providers/Videos/ViewVideos";
 import { Switch } from "@mui/material";
 import ViewerPlayVideo from "./pages/Consumers/ViewerPlayVideo";
-import ViewSingleClass from "./pages/Providers/Objects/Classes/ViewSingleClass";
+import ViewSingleClass from "./pages/Providers/Classes/ViewSingleClass";
 
 function App() {
   return (

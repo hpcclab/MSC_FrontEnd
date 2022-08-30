@@ -1,20 +1,13 @@
 import { ThemeProvider } from '@emotion/react';
-import { PropaneSharp } from '@mui/icons-material';
 import { createTheme, Box, CssBaseline, Container, Grid } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import SingleItem from '../../../../components/Items/SingleItem';
-import Navbar from '../../../../components/Navbar/Navbar';
-import Bottom from '../../../../components/Pagination/Bottom';
-import Player from '../../../../components/Viewer/Player';
+import SingleItem from '../../../components/Items/SingleItem';
+import Navbar from '../../../components/Navbar/Navbar';
+import Bottom from '../../../components/Pagination/Bottom';
+import Player from '../../../components/Viewer/Player';
 
-type urlParams = {
-    className: string;
-  };
-
-const ViewSingleClass = () => {
-const className = useParams<urlParams>().className;
+const ViewClasses = () => {
   const handlePageChange = (e: any, p: any) => {
     setCurrentPage(p);
   };
@@ -26,7 +19,7 @@ const className = useParams<urlParams>().className;
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes/"+ className +"/objects?limit=" +
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -47,9 +40,9 @@ const className = useParams<urlParams>().className;
             return (
               <>
                 <SingleItem
-                  title={item.embeddedRecord.title}
-                  desc={item.embeddedRecord.desc}
-                  state={item.status.taskStatus}
+                  title={item.name}
+                  desc={item.stateType}
+                  state={item.objectType}
                   videoId={''}
                   height={115}
                   thumbnail={null}
@@ -71,7 +64,7 @@ const className = useParams<urlParams>().className;
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section={className} url={className}/>
+          <Navbar isViewer={false} section="classes" url="classes"/>
           {/** Page Content */}
           <Box
             component="main"
@@ -120,4 +113,4 @@ const className = useParams<urlParams>().className;
   );
 }
 
-export default ViewSingleClass;
+export default ViewClasses;

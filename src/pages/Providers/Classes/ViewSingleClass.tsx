@@ -1,13 +1,20 @@
 import { ThemeProvider } from '@emotion/react';
+import { PropaneSharp } from '@mui/icons-material';
 import { createTheme, Box, CssBaseline, Container, Grid } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import SingleItem from '../../../../components/Items/SingleItem';
-import Navbar from '../../../../components/Navbar/Navbar';
-import Bottom from '../../../../components/Pagination/Bottom';
-import Player from '../../../../components/Viewer/Player';
+import { useParams } from 'react-router';
+import SingleItem from '../../../components/Items/SingleItem';
+import Navbar from '../../../components/Navbar/Navbar';
+import Bottom from '../../../components/Pagination/Bottom';
+import Player from '../../../components/Viewer/Player';
 
-const ViewClasses = () => {
+type urlParams = {
+    className: string;
+  };
+
+const ViewSingleClass = () => {
+const className = useParams<urlParams>().className;
   const handlePageChange = (e: any, p: any) => {
     setCurrentPage(p);
   };
@@ -19,7 +26,7 @@ const ViewClasses = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes?limit=" +
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes/"+ className +"/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -40,9 +47,9 @@ const ViewClasses = () => {
             return (
               <>
                 <SingleItem
-                  title={item.name}
-                  desc={item.stateType}
-                  state={item.objectType}
+                  title={item.embeddedRecord.title}
+                  desc={item.embeddedRecord.desc}
+                  state={item.status.taskStatus}
                   videoId={''}
                   height={115}
                   thumbnail={null}
@@ -64,7 +71,7 @@ const ViewClasses = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="classes" url="classes"/>
+          <Navbar isViewer={false} section={className} url={className}/>
           {/** Page Content */}
           <Box
             component="main"
@@ -113,4 +120,4 @@ const ViewClasses = () => {
   );
 }
 
-export default ViewClasses;
+export default ViewSingleClass;
