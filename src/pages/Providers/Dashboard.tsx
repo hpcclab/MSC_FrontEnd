@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { ThemeProvider, useTheme } from "@emotion/react";
 import {
   Box,
@@ -7,12 +8,106 @@ import {
   createTheme,
   Paper,
   Typography,
+  Button,
 } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import SingleItem from "../../components/Items/SingleItem";
 import Navbar from "../../components/Navbar/Navbar";
 import Player from "../../components/Viewer/Player";
+import Bottom from "../../components/Pagination/Bottom";
 
 const Dashboard = () => {
+  const handleObjPageChange = (e: any, p: any) => {
+    setCurrentObjPage(p);
+  };
+  const [totalItems, setTotalItems] = useState(1);
+  const objItemCount: number = 5;
+  const objPageNumbers = Math.ceil(totalItems / objItemCount);
+  const [currentObjPage, setCurrentObjPage] = useState(1);
+  const [objects, setObjects] = useState<any>([]);
+  const getTotalItems = async () => {
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=" +
+        objItemCount +
+        "&offset=" +
+        (currentObjPage - 1) * objItemCount
+    );
+    setTotalItems(res.data.total);
+    setObjects(res.data.items);
+  };
+  useEffect(() => {
+    getTotalItems();
+  }, [currentObjPage]);
+  const renderObjects = () => {
+    try {
+      return (
+        <>
+          {objects.map((item: any) => {
+            return (
+              <>
+                <SingleItem
+                  title={item.embeddedRecord.title}
+                  desc={item.embeddedRecord.desc}
+                  state={item.cls}
+                  videoId={""}
+                  height={115}
+                  thumbnail={null}
+                />
+              </>
+            );
+          })}
+        </>
+      );
+    } catch (error) {}
+  };
+
+  const handleFuncPageChange = (e: any, p: any) => {
+    setCurrentFuncPage(p);
+  };
+
+  const [totalFuncItems, setTotalFuncItems] = useState(1);
+  const funcItemCount: number = 5;
+  const funcPageNumbers = Math.ceil(totalFuncItems / funcItemCount);
+  const [currentFuncPage, setCurrentFuncPage] = useState(1);
+  const [functions, setFunctions] = useState<any>([]);
+  const getFunctions = async () => {
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=" +
+        funcItemCount +
+        "&offset=" +
+        (currentFuncPage - 1) * funcItemCount
+    );
+    setTotalFuncItems(res.data.total);
+    setFunctions(res.data.items);
+  };
+
+  useEffect(() => {
+    getFunctions();
+  }, [currentFuncPage]);
+
+  const renderFunctions = () => {
+    try {
+      return (
+        <>
+          {functions.map((item: any) => {
+            return (
+              <>
+                <SingleItem
+                  title={item.name}
+                  desc={item.outputCls}
+                  state={item.type}
+                  videoId={item.id}
+                  height={115}
+                  thumbnail={null}
+                />
+              </>
+            );
+          })}
+        </>
+      );
+    } catch (error) {}
+  };
+
   return (
     <>
       <ThemeProvider theme={createTheme()}>
@@ -47,7 +142,7 @@ const Dashboard = () => {
                         <Paper
                           variant="outlined"
                           sx={{
-                            height: 925,
+                            height: 825,
                             p: 2,
                             margin: "auto",
                             flexGrow: 1,
@@ -72,6 +167,16 @@ const Dashboard = () => {
                               >
                                 Objects
                               </Typography>
+                              {renderObjects()}
+                              <Bottom
+                                count={objPageNumbers}
+                                currentPage={currentObjPage}
+                                handleChange={handleObjPageChange}
+                                redirect="/"
+                                canUpload={false}
+                              />
+                              <Button href="/sp-upload-video" variant="contained" sx={{mt:2}}>Create New Video as an Object</Button>
+                              <Button href="/sp-upload-file" variant="contained" sx={{mt:2}}>Create New File as an Object</Button>
                             </Grid>
                           </Grid>
                         </Paper>
@@ -80,7 +185,7 @@ const Dashboard = () => {
                         <Paper
                           variant="outlined"
                           sx={{
-                            height: 925,
+                            height: 825,
                             p: 2,
                             margin: "auto",
                             flexGrow: 1,
@@ -105,6 +210,16 @@ const Dashboard = () => {
                               >
                                 Functions
                               </Typography>
+                              {renderFunctions()}
+                              <Bottom
+                                count={funcPageNumbers}
+                                currentPage={currentFuncPage}
+                                handleChange={handleFuncPageChange}
+                                redirect="/"
+                                canUpload={false}
+                              />
+                              <Button href="/sp-upload-function" variant="contained" sx={{mt:2}}>Create New Function</Button>
+                              <Button href="/sp-upload-class" variant="contained" sx={{mt:2}}>Create New Class and Apply Functions</Button>
                             </Grid>
                           </Grid>
                         </Paper>

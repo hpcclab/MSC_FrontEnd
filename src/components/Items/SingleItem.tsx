@@ -38,8 +38,8 @@ const SingleItem: React.FC<{
 
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="h4" component="div">
+              <Grid item xs >
+                <Typography noWrap gutterBottom variant="h4" component="div">
                   {props.title}
                 </Typography>
                 <Typography variant="body2" gutterBottom sx={{ height: 70 }}>
@@ -47,8 +47,8 @@ const SingleItem: React.FC<{
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item>
-              <Typography variant="h4" component="div" sx={{ mt:4, ml: 10 }}>
+            <Grid item >
+              <Typography variant="h4" sx={{ mt:4, ml: 10 }}>
                 {props.state}
               </Typography>
             </Grid>

@@ -52,10 +52,7 @@ const ViewFunctions = () => {
           })}
         </>
       );
-    } catch (error) {
-      
-    }
-    
+    } catch (error) {}
   };
 
   return (
@@ -64,7 +61,7 @@ const ViewFunctions = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="functions" url=""/>
+          <Navbar isViewer={false} section="functions" url="" />
           {/** Page Content */}
           <Box
             component="main"
@@ -84,15 +81,7 @@ const ViewFunctions = () => {
                   {/** Components go here */}
                   <Grid sx={{ mt: 8, height: 825 }}>
                     {/** Page contents go here */}
-                    {totalItems !== 0 ? (
-                      <>
-                      {renderItems()}
-                      </>
-                    ) : (
-                    <>
-                    </>)
-                    
-                    }
+                    {totalItems !== 0 ? <>{renderItems()}</> : <></>}
                   </Grid>
                   {/** Pagination and Upload Button */}
                   <Bottom

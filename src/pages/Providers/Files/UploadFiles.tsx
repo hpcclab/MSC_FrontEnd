@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { createTheme, Box, CssBaseline, Container, Grid } from "@mui/material";
+import { createTheme, Box, CssBaseline, Container, Grid, LinearProgress } from "@mui/material";
 import React, { useState } from "react";
 import Navbar from "../../../components/Navbar/Navbar";
 import Player from "../../../components/Viewer/Player";
@@ -7,11 +7,15 @@ import BackCreate from "../../../components/Upload/BackCreate";
 import InputBox from "../../../components/Upload/InputBox";
 import UploadArea from "../../../components/Upload/UploadArea";
 import UploadTitle from "../../../components/Upload/UploadTitle";
+import axios from "axios";
+import { isConstructorDeclaration } from "typescript";
 
 const UploadFiles = () => {
-  const [name, setName] = useState("There is no file selected");
+  const [fileName, setFileName] = useState("There is no file selected");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState<any>();
+  const [name, setName] = useState("")
+  const [progress, setProgress] = useState(0)
 
   const handleNameChange = (e: any) => {
     setName(e.target.value);
@@ -20,8 +24,27 @@ const UploadFiles = () => {
     setDesc(e.target.value);
   };
   const handleUploadFile = () => {
-    console.log("a");
+    setProgress(0)
+    axios.post('http://oc.oaas.10.131.36.40.nip.io/api/object-construct', {
+      cls: "builtin.basic.file",
+      embeddedRecord: {
+        title: name,
+        desc: desc,
+      },
+      keys: ["file"]
+    }).then(function (response) {
+      axios.put(response.data.uploadUrls.file, file, {
+        headers: {
+          'Content-Type': file.type
+        },
+        onUploadProgress: prog => {
+          setProgress(Math.round((prog.loaded / prog.total) * 100))
+        }
+      })
+    })
   };
+
+
 
   return (
     <>
@@ -61,17 +84,21 @@ const UploadFiles = () => {
                         label="Enter Description"
                         handleInput={handleDescChange}
                       />
-                      <UploadArea title="Source" setFile={setFile} setFileName={setName} fileName={name}/>
+                      <UploadArea title="Source" setFile={setFile} setFileName={setFileName} fileName={fileName}/>
                       
                       <BackCreate
                         handleSubmit={handleUploadFile}
-                        backDisabled={false}
-                        submitDisabled={false}
+                        backDisabled={progress !== 0 && progress !== 100}
+                        submitDisabled={(progress !== 0 && progress !== 100) || (file === undefined || name === "" || desc === "")}
                         submitTitle="Upload File"
                         goBackTo="/sp-file-list"
                       />
+                      
                     </Grid>
+                    <LinearProgress sx={{mt: 2}} variant="determinate" value={progress} />
+                      {progress}%
                   </Grid>
+                  
                   {/** End Components go here */}
                 </Grid>
               </Grid>

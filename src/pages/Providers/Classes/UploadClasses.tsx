@@ -180,67 +180,6 @@ const UploadClasses = () => {
     setObjectRefs([...objectRefs]);
   };
 
-  const test = () => {
-    return (
-      <>
-        {files.map((item: any, index: number) => {
-          return (
-            <>
-              <Grid container spacing={2} sx={{ mt: 1 }}>
-                <Grid item xs={12} sm container>
-                  <Grid item xs container direction="column" spacing={2}>
-                    <Grid item xs>
-                      <Divider></Divider>
-                      <TextField
-                        sx={{ mt: 2 }}
-                        fullWidth
-                        id="outlined-textarea"
-                        label="Context Element Name (Fill)"
-                        placeholder="Context Element Name (Fill)"
-                        value={item[0]}
-                        onChange={(e) => {
-                          handleFileChange(index, 0, e.target.value!);
-                        }}
-                        multiline
-                      />
-                      <Typography>with default value</Typography>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">
-                          File Name
-                        </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={item[1]}
-                          label="Function"
-                          onChange={(event) => {
-                            handleFileChange(index, 1, event.target.value);
-                          }}
-                        >
-                          {renderFunctionSelections}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Divider></Divider>
-                    <Button
-                      onClick={() => {
-                        handleFileDeletion(index);
-                      }}
-                      sx={{ mt: 1 }}
-                    >
-                      <RemoveCircleOutlineIcon />
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </>
-          );
-        })}
-      </>
-    );
-  };
 
   return (
     <>
