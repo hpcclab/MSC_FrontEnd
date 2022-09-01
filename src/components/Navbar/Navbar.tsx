@@ -61,7 +61,11 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const Navbar: React.FC<{ isViewer: boolean; section: string | undefined; url: string | undefined }> = (props) => {
+const Navbar: React.FC<{
+  isViewer: boolean;
+  section: string | undefined;
+  url: string | undefined;
+}> = (props) => {
   return (
     <>
       <CssBaseline />
@@ -111,13 +115,26 @@ const Navbar: React.FC<{ isViewer: boolean; section: string | undefined; url: st
         }}
       >
         <Toolbar />
+
         {
           // If on viewer (consumer) sections, then show the viewer sidebar
           // Otherwise, show the provider sidebar
           props.isViewer ? (
-            <ViewerSidebar />
+            <Box
+              component="main"
+              sx={{
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light"
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+                flexGrow: 1,
+                height: window.innerHeight - 100,
+              }}
+            >
+              <ViewerSidebar />
+            </Box>
           ) : (
-            <ProviderSidebar section={props.section} url={props.url}/>
+            <ProviderSidebar section={props.section} url={props.url} />
           )
         }
       </Drawer>

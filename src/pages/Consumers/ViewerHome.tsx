@@ -29,7 +29,7 @@ const ViewerHome = () => {
                 {/** Components go here */}
                   
                   
-                  <VideoInfo title="title" desc="desc123"/>
+                  <VideoInfo title="Welcome to MSC's web interface" desc="Select a video to play it or go to the stream provider section"/>
               </Grid>
             </Grid>
           </Container>

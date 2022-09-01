@@ -9,7 +9,7 @@ const FileItem: React.FC<{
   objectId: string;
   height: number;
 }> = (props) => {
-    
+
   const handleDownloadRequest = () => {
     const link = document.createElement("a");
     link.setAttribute("href", "http://cds.10.131.36.40.nip.io/oal/"+ props.objectId + "/file")

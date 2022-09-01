@@ -1,38 +1,111 @@
-import { Grid, Typography, Button } from '@mui/material';
-import React from 'react';
+import {
+  Grid,
+  Typography,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+import React from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import Thumbnail from "../Items/components/Thumbnail";
+import DropDown from "../Items/components/DropDown";
 
-const ContextItem: React.FC<{}> = (props) => {
+const ContextItem: React.FC<{
+  contextData: any[];
+  toggle: boolean;
+  onToggle: () => void;
+  handleSelection: (index: number, value: string) => void;
+  title: string;
+  isDropdown: boolean;
+  selectData: any[];
+}> = (props) => {
+  const renderSelections = props.selectData.map((item: any) => (
+    <MenuItem value={item.embeddedRecord.title}>
+      {item.embeddedRecord.title}
+    </MenuItem>
+  ));
 
-
-    // Since this will only be used for the upload videos,
-    // potentially, don't bother with making it a component
-    // and just code it into videos
-
-    // Once the user selects a class, render the context element names automatically
+  const showItems = () => {
     return (
-        <>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography variant="h5">Files</Typography>
+      <>
+        {props.contextData.map((item: any, index: number) => {
+          return (
+            <>
+              <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      {props.isDropdown && (
+                        <>
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              Default {props.title} Name
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={item}
+                              label="Function"
+                              onChange={(event) => {
+                                props.handleSelection(
+                                  index,
+                                  event.target.value
+                                );
+                              }}
+                            >
+                              {renderSelections}
+                            </Select>
+                          </FormControl>
+                        </>
+                      )}
+                      {
+                        !props.isDropdown && (
+                          <>
+                          <TextField
+                            fullWidth
+                            id="outlined-textarea"
+                            label="Default Variable Value"
+                            placeholder="Default Variable Value"
+                            multiline
+                            onChange={(e) => {
+                              props.handleSelection(index, e.target.value);
+                            }}
+                          />
+                        </>
+                        )
+                      }
+                    </Grid>
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item>
-              <Button
-                onClick={() => {
-                  console.log(5)
-                }}
-              >
-                <AddCircleOutlineIcon />
-              </Button>
+            </>
+          );
+        })}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm container>
+          <Grid item xs container direction="column" spacing={2}>
+            <Grid item xs>
+              <Typography variant="h5">{props.title}</Typography>
             </Grid>
           </Grid>
+          <Grid item>
+            <DropDown toggle={props.toggle} onToggle={props.onToggle} />
+          </Grid>
+          {props.toggle && <>{showItems()}</>}
         </Grid>
-        </>
-    )
-}
+      </Grid>
+    </>
+  );
+};
 
 export default ContextItem;
