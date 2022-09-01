@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import { CssBaseline, List, Paper } from "@mui/material";
+import { CssBaseline, Input, List, Paper } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MuiDrawer from "@mui/material/Drawer";
 import ProviderSidebar from "./Sidebar/ProviderSidebar";
@@ -120,6 +120,7 @@ const Navbar: React.FC<{
           // If on viewer (consumer) sections, then show the viewer sidebar
           // Otherwise, show the provider sidebar
           props.isViewer ? (
+            <>
             <Box
               component="main"
               sx={{
@@ -133,6 +134,7 @@ const Navbar: React.FC<{
             >
               <ViewerSidebar />
             </Box>
+            </>
           ) : (
             <ProviderSidebar section={props.section} url={props.url} />
           )

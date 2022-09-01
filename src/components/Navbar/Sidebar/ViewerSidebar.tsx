@@ -1,4 +1,4 @@
-import { Paper, Grid, ButtonBase, Typography, styled } from '@mui/material';
+import { Paper, Grid, ButtonBase, Typography, styled, Input } from '@mui/material';
 import usePagination from '@mui/material/usePagination/usePagination';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -27,6 +27,10 @@ const ViewerSidebar = () => {
         fetchPosts();
     }, []);
 
+    const [input, setInput] = useState('')
+    
+    
+
     const renderData = () => {
         return (
             <>
@@ -41,6 +45,9 @@ const ViewerSidebar = () => {
     }
     return (
         <>
+        <Input sx={{width: 240}} onChange={(e)=> {
+            setInput(e.target.value)
+        }}></Input>
         {renderData()}
         </>
     )

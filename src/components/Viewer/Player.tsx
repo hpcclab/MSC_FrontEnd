@@ -116,40 +116,12 @@ const Player: React.FC<{videoId: string | undefined}> = (props) => {
   const [subtitle, setSubtitle] = React.useState(false);
 
   return (
-    <div>
+    <>
       <FormControl fullWidth>
         <video ref={videoEl} controls />
-        <Stack spacing={2} direction="row" sx={{ mt: 1 }} alignItems="center">
-          <Button
-            startIcon={<PlayArrowIcon />}
-            variant="contained"
-            onClick={() => {
-              videoEl.current.play();
-            }}
-          >
-            Play
-          </Button>
-          <Button
-            startIcon={<PauseIcon />}
-            variant="contained"
-            onClick={() => {
-              videoEl.current.pause();
-            }}
-          >
-            Pause
-          </Button>
-        </Stack>
-        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-          <VolumeDown />
-          <Slider
-            aria-label="Volume"
-            value={volume}
-            onChange={handleAudioChange}
-          />
-          <VolumeUp />
-        </Stack>
+        
       </FormControl>
-    </div>
+    </>
   );
 };
 
@@ -202,3 +174,36 @@ export default Player;
           >Full Screen</Button>
 
 */
+
+/**
+ * 
+ * <Stack spacing={2} direction="row" sx={{ mt: 1 }} alignItems="center">
+          <Button
+            startIcon={<PlayArrowIcon />}
+            variant="contained"
+            onClick={() => {
+              videoEl.current.play();
+            }}
+          >
+            Play
+          </Button>
+          <Button
+            startIcon={<PauseIcon />}
+            variant="contained"
+            onClick={() => {
+              videoEl.current.pause();
+            }}
+          >
+            Pause
+          </Button>
+        </Stack>
+        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+          <VolumeDown />
+          <Slider
+            aria-label="Volume"
+            value={volume}
+            onChange={handleAudioChange}
+          />
+          <VolumeUp />
+        </Stack>
+ */

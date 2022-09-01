@@ -139,7 +139,7 @@ const ViewerPlayVideo = () => {
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={item[0]}
+                            value={item[3]}
                             label="File Name"
                             onChange={(event) => {
                               changeFunction(index, 3, event.target.value);
@@ -200,7 +200,7 @@ const ViewerPlayVideo = () => {
               <Grid container spacing={3} sx={{ mt: 8 }}>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
-                  {taskStatus === "SUCCEEDED" && (
+                  {taskStatus === "SUCCEEDED" ? (
                     <>
                       <Player videoId={videoId} />
                       <VideoInfo
@@ -227,6 +227,8 @@ const ViewerPlayVideo = () => {
                       {renderFunctions()}
                       <Button variant="contained">Apply</Button>
                     </>
+                  ): (
+                    <VideoInfo title="Welcome to MSC's web interface" desc="Select a video to play it or go to the stream provider section"/>
                   )}
                 </Grid>
               </Grid>
