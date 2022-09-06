@@ -21,6 +21,7 @@ const FillDownInput: React.FC<{
   selectData: any;
   dropdownName: string;
   handleChange: (index: number, index2: number, value: string) => void;
+  useDropDown: boolean;
 }> = (props) => {
   const renderSelections = props.selectData.map((item: any) => (
     <MenuItem value={item.name}>{item.name}</MenuItem>
@@ -49,24 +50,31 @@ const FillDownInput: React.FC<{
                         }}
                         multiline
                       />
-                      <Typography>with default value</Typography>
-                      <FormControl fullWidth sx={{mt:0.5}}>
-                        <InputLabel id="demo-simple-select-label" >
-                          {props.dropdownName}
-                        </InputLabel>
-                        <Select
-                        
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={item[1]}
-                          label={props.dropdownName}
-                          onChange={(event) => {
-                            props.handleChange(index, 1, event.target.value);
-                          }}
-                        >
-                          {renderSelections}
-                        </Select>
-                      </FormControl>
+                      {props.useDropDown && (
+                        <>
+                          <Typography>of class</Typography>
+                          <FormControl fullWidth sx={{ mt: 0.5 }}>
+                            <InputLabel id="demo-simple-select-label">
+                              {props.dropdownName}
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={item[1]}
+                              label={props.dropdownName}
+                              onChange={(event) => {
+                                props.handleChange(
+                                  index,
+                                  1,
+                                  event.target.value
+                                );
+                              }}
+                            >
+                              {renderSelections}
+                            </Select>
+                          </FormControl>
+                        </>
+                      )}
                     </Grid>
                   </Grid>
                   <Grid item>

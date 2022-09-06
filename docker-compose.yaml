@@ -1,22 +1,26 @@
 version: '3.7'
 services:
-  s3:
-    image: minio/minio
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - minio-data:/data
-    environment:
-      MINIO_ACCESS_KEY: minio_access_key
-      MINIO_SECRET_KEY: minio_secret_key
-      MINIO_API_CORS_ALLOW_ORIGIN: "*"
-    command: server --address 0.0.0.0:9000 --console-address ":9001" /data
+  #s3:
+  #  image: minio/minio
+  #  ports:
+  #    - "9000:9000"
+  #    - "9001:9001"
+  #  volumes:
+  #    - minio-data:/data
+  #  environment:
+  #    MINIO_ACCESS_KEY: minio_access_key
+  #    MINIO_SECRET_KEY: minio_secret_key
+  #    MINIO_API_CORS_ALLOW_ORIGIN: "*"
+  #  command: server --address 0.0.0.0:9000 --console-address ":9001" /data
 ## By default this config uses default local driver,
 ## For custom volumes replace with volume driver configuration.
   web:
     build:
       context: .
+    environment:
+      "OC_API": "http://oc.oaas.10.131.36.40.nip.io/"
+      "CDS_API": "http://cds.10.131.36.40.nip.io/"
+      "TM_API": "http://tm.10.131.36.40.nip.io/"
     ports:
       - "8080:80"
 

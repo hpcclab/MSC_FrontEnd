@@ -151,24 +151,27 @@ const UploadVideos = () => {
     await handleUploadVideo();
   };
 
-
-  const [choosableFiles, setChooseableFiles] = useState<any>([])
+  const [numFiles, setNumFiles] = useState(0);
+  const [choosableFiles, setChooseableFiles] = useState<any>([]);
   const getChoosableFiles = async () => {
-    const res = await axios.get("http://oc.oaas.10.131.36.40.nip.io/api/classes/builtin.basic.file/objects?limit=100000&offset=0")
-    setChooseableFiles(res.data.items)
-  }
-  const [choosableObj, setChooseableObj] = useState<any>([])
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes/builtin.basic.file/objects?limit=100000&offset=0"
+    );
+    setChooseableFiles(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
+    setNumFiles(res.data.total as number);
+  };
+  const [choosableObj, setChooseableObj] = useState<any>([]);
   const getChoosableObj = async () => {
-    const res = await axios.get("http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=100000&offset=0")
-    res.data.items.splice(0, 1);
-    setChooseableObj(res.data.items.splice(0, 10));
-  }
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=100000&offset=0"
+    );
+    //res.data.items.splice(2, 3);
+    setChooseableObj(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
+  };
   useEffect(() => {
-    getChoosableFiles()
-    getChoosableObj()
-  }, [5])
-
-
+    getChoosableFiles();
+    getChoosableObj();
+  }, [5]);
 
   return (
     <>
@@ -228,26 +231,31 @@ const UploadVideos = () => {
                             flexDirection: "column",
                           }}
                         >
-                          <ContextItem
-                            isDropdown={true}
-                            title="Files"
-                            contextData={contextFiles}
-                            handleSelection={handleFileSelection}
-                            toggle={toggleFiles}
-                            onToggle={handleToggleFiles}
-                            selectData={choosableFiles}
-                          />
-                          <Divider sx={{mt: 2}}></Divider>
-                          <ContextItem
-                            isDropdown={false}
-                            title="Variables"
-                            contextData={contextVariables}
-                            handleSelection={handleVariableSelection}
-                            toggle={toggleVariables}
-                            onToggle={handleToggleVariables}
-                            selectData={choosableFiles}
-                          />
-                          <Divider sx={{mt: 2}}></Divider>
+                          {numFiles !== 0 && (
+                            <>
+                              <ContextItem
+                                isDropdown={true}
+                                title="Files"
+                                contextData={contextFiles}
+                                handleSelection={handleFileSelection}
+                                toggle={toggleFiles}
+                                onToggle={handleToggleFiles}
+                                selectData={choosableFiles}
+                              />
+                              <Divider sx={{ mt: 2 }}></Divider>
+                              <ContextItem
+                                isDropdown={false}
+                                title="Variables"
+                                contextData={contextVariables}
+                                handleSelection={handleVariableSelection}
+                                toggle={toggleVariables}
+                                onToggle={handleToggleVariables}
+                                selectData={choosableFiles}
+                              />
+                            </>
+                          )}
+
+                          <Divider sx={{ mt: 2 }}></Divider>
                           <ContextItem
                             isDropdown={true}
                             title="Object References"

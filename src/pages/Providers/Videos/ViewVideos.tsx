@@ -19,7 +19,7 @@ const VVideos = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes/example.video.hls/objects?limit=" +
+      (window as any).ENV.OC_API + "api/classes/example.video.hls/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount

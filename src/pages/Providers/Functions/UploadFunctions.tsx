@@ -40,8 +40,19 @@ const UploadFunctions = () => {
   const handleDescChange = (e: any) => {
     setDesc(e.target.value);
   };
-  const handleUploadFile = () => {
-    console.log("a");
+  const handleCreateFunc = () => {
+    console.log({
+      "functions": [
+        {
+          "access": "PUBLIC",
+          "defaultArgs": {},
+          "forwardRecords": [],
+          "function": name,
+          "name": name,
+        }
+
+      ]
+    });
   };
 
   const [vars, setVars] = useState<any>([""]);
@@ -178,6 +189,7 @@ const UploadFunctions = () => {
                             value="file"
                             control={<Radio />}
                             label="File"
+                            onClick={() => {changeRefValue(index, "built.basic.file")}}
                           />
                           <FormControlLabel
                             value="object"
@@ -235,12 +247,14 @@ const UploadFunctions = () => {
     );
   };
 
-  const [oaasFunctions, setOaaSFunctions] = useState<any>([])
-  const [videoId, setVideoId] = useState("")
+  const [oaasFunctions, setOaaSFunctions] = useState<any>([]);
+  const [videoId, setVideoId] = useState("");
   const getFunctions = async () => {
-    const res = await axios.get('http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=10000&offset=0')
-    setOaaSFunctions(res.data.items)
-  }
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=10000&offset=0"
+    );
+    setOaaSFunctions(res.data.items);
+  };
 
   useEffect(() => {
     getFunctions();
@@ -259,11 +273,8 @@ const UploadFunctions = () => {
     setFunctions([...functions]);
   };
   const renderOaaSFunctions = oaasFunctions.map((item: any) => (
-    <MenuItem value={item.name}>
-      {item.name}
-    </MenuItem>
+    <MenuItem value={item.name}>{item.name}</MenuItem>
   ));
-
 
   const renderFunctions = () => {
     return (
@@ -271,125 +282,127 @@ const UploadFunctions = () => {
         {functions.map((item, index) => {
           return (
             <>
-              <Paper
-                variant="outlined"
-                sx={{
-                  p: 2,
-                  margin: "auto",
-                  flexGrow: 1,
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-                }}
-              >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm container>
-                    <Grid item xs container direction="column" spacing={2}>
-                      <Grid item xs>
-                      <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                          Input Point Name
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          id="outlined-textarea"
-                          label="Input Input Name"
-                          placeholder="Fill"
-                          multiline
-                          onChange={(e) => {
-                            changeFunction(index, 1, e.target.value);
-                          }}
-                        />
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            Function Name
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={item[0]}
-                            label="Function"
-                            onChange={(event) => {
-                              changeFunction(index, 0, event.target.value);
+              <Grid item xs={12}>
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    margin: "auto",
+                    flexGrow: 1,
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                  }}
+                >
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <Grid item xs={12} sm container>
+                        <Grid item xs>
+                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                            Input Point Name
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            id="outlined-textarea"
+                            label="Input Input Name"
+                            placeholder="Fill"
+                            multiline
+                            onChange={(e) => {
+                              changeFunction(index, 1, e.target.value);
                             }}
-                          >
-                            {renderOaaSFunctions}
-                          </Select>
-                        </FormControl>
-                        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                          Input Variables
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          id="outlined-textarea"
-                          label="Input Variable Name"
-                          placeholder="Fill"
-                          multiline
-                          onChange={(e) => {
-                            changeFunction(index, 1, e.target.value);
-                          }}
-                        />
-                        <TextField
-                          fullWidth
-                          id="outlined-textarea"
-                          label="Input Variable Name"
-                          placeholder="Fill"
-                          multiline
-                          onChange={(e) => {
-                            changeFunction(index, 2, e.target.value);
-                          }}
-                        />
-                        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                          Input References
-                        </Typography>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            File
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={item[0]}
-                            label="File Name"
-                            onChange={(event) => {
-                              changeFunction(index, 3, event.target.value);
+                          />
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              Function Name
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={item[0]}
+                              label="Function"
+                              onChange={(event) => {
+                                changeFunction(index, 0, event.target.value);
+                              }}
+                            >
+                              {renderOaaSFunctions}
+                            </Select>
+                          </FormControl>
+                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                            Input Variables
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            id="outlined-textarea"
+                            label="Input Variable Name"
+                            placeholder="Fill"
+                            multiline
+                            onChange={(e) => {
+                              changeFunction(index, 1, e.target.value);
                             }}
-                          >
-                            {renderOaaSFunctions}
-                          </Select>
-                        </FormControl>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            Object
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={item[4]}
-                            label="Object Name"
-                            onChange={(event) => {
-                              changeFunction(index, 4, event.target.value);
+                          />
+                          <TextField
+                            fullWidth
+                            id="outlined-textarea"
+                            label="Input Variable Name"
+                            placeholder="Fill"
+                            multiline
+                            onChange={(e) => {
+                              changeFunction(index, 2, e.target.value);
                             }}
-                          >
-                            {renderOaaSFunctions}
-                          </Select>
-                        </FormControl>
-                        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                          Output Point Name
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          id="outlined-textarea"
-                          label="Input Output Name"
-                          placeholder="Fill"
-                          multiline
-                          onChange={(e) => {
-                            changeFunction(index, 1, e.target.value);
-                          }}
-                        />
+                          />
+                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                            Input References
+                          </Typography>
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              File
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={item[0]}
+                              label="File Name"
+                              onChange={(event) => {
+                                changeFunction(index, 3, event.target.value);
+                              }}
+                            >
+                              {renderOaaSFunctions}
+                            </Select>
+                          </FormControl>
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              Object
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={item[4]}
+                              label="Object Name"
+                              onChange={(event) => {
+                                changeFunction(index, 4, event.target.value);
+                              }}
+                            >
+                              {renderOaaSFunctions}
+                            </Select>
+                          </FormControl>
+                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                            Output Point Name
+                          </Typography>
+                          <TextField
+                            fullWidth
+                            id="outlined-textarea"
+                            label="Input Output Name"
+                            placeholder="Fill"
+                            multiline
+                            onChange={(e) => {
+                              changeFunction(index, 1, e.target.value);
+                            }}
+                          />
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-              </Paper>
+                </Paper>
+              </Grid>
             </>
           );
         })}
@@ -435,108 +448,182 @@ const UploadFunctions = () => {
                         label="Enter Description"
                         handleInput={handleDescChange}
                       />
-                      <Paper
-                        sx={{
-                          p: 2,
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <Grid item xs={12} sm container>
-                          <Grid
-                            item
-                            xs
-                            container
-                            direction="column"
-                            spacing={2}
-                          >
-                            <Grid item xs>
-                              <Typography variant="h3">
-                                Input Variables
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Button onClick={handleAddition}>
-                              <AddCircleOutlineIcon
-                                sx={{ mt: 0.5 }}
-                                fontSize="large"
-                              />
-                            </Button>
-                          </Grid>
-                        </Grid>
-                        {showVars()}
-                      </Paper>
 
-                      <Paper
-                        sx={{
-                          p: 2,
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <Grid item xs={12} sm container>
-                          <Grid
-                            item
-                            xs
-                            container
-                            direction="column"
-                            spacing={2}
-                          >
-                            <Grid item xs>
-                              <Typography variant="h3">
-                                Input References
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Button onClick={addRef}>
-                              <AddCircleOutlineIcon
-                                sx={{ mt: 0.5 }}
-                                fontSize="large"
-                              />
-                            </Button>
-                          </Grid>
-                        </Grid>
-                        {showRefs()}
-                      </Paper>
-
-                      <FormControl>
-                        <FormLabel id="demo-controlled-radio-buttons-group">
-                          Execution
-                        </FormLabel>
-                        <RadioGroup
-                          aria-labelledby="demo-controlled-radio-buttons-group"
-                          name="controlled-radio-buttons-group"
-                          value={executionType}
-                          onChange={handleExecutionTypeChange}
+                      {/** Start Input Variables */}
+                      <Grid item xs={12}>
+                        <Paper
+                          variant="outlined"
+                          sx={{
+                            p: 2,
+                            margin: "auto",
+                            flexGrow: 1,
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === "dark"
+                                ? "#1A2027"
+                                : "#fff",
+                          }}
                         >
-                          <FormControlLabel
-                            value="single"
-                            control={<Radio />}
-                            label="Single"
-                          />
-                          <FormControlLabel
-                            value="dataFlow"
-                            control={<Radio />}
-                            label={
-                              <>
-                                <Typography>
-                                  Data Flow
-                                  <Button
-                                    onClick={() => {
-                                      setExecutionType("dataFlow");
-                                      addFunction();
-                                    }}
-                                  >
-                                    <AddCircleOutlineIcon />
+                          <Grid
+                            item
+                            xs
+                            container
+                            direction="column"
+                            spacing={2}
+                          >
+                            <Grid item xs>
+                              <Grid item xs={12} sm container>
+                                <Grid
+                                  item
+                                  xs
+                                  container
+                                  direction="column"
+                                  spacing={2}
+                                >
+                                  <Grid item xs>
+                                    <Typography variant="h3">
+                                      Input Variables
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                                <Grid item>
+                                  <Button onClick={handleAddition}>
+                                    <AddCircleOutlineIcon
+                                      sx={{ mt: 0.5 }}
+                                      fontSize="large"
+                                    />
                                   </Button>
-                                </Typography>
-                              </>
-                            }
-                          />
-                        </RadioGroup>
-                      </FormControl>
+                                </Grid>
+                                {showVars()}
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </Grid>
+                      {/** End Input Variables */}
+
+                      {/** Start Input References */}
+                      <Grid item xs={12}>
+                        <Paper
+                          variant="outlined"
+                          sx={{
+                            p: 2,
+                            margin: "auto",
+                            flexGrow: 1,
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === "dark"
+                                ? "#1A2027"
+                                : "#fff",
+                          }}
+                        >
+                          <Grid
+                            item
+                            xs
+                            container
+                            direction="column"
+                            spacing={2}
+                          >
+                            <Grid item xs>
+                              <Grid item xs={12} sm container>
+                                <Grid
+                                  item
+                                  xs
+                                  container
+                                  direction="column"
+                                  spacing={2}
+                                >
+                                  <Grid item xs>
+                                    <Typography variant="h3">
+                                      Input References
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                                <Grid item>
+                                  <Button onClick={addRef}>
+                                    <AddCircleOutlineIcon
+                                      sx={{ mt: 0.5 }}
+                                      fontSize="large"
+                                    />
+                                  </Button>
+                                </Grid>
+                                {showRefs()}
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </Grid>
+                      {/** End Input References */}
+
+                      {/** Start Execution */}
+
+                      <Grid item xs={12}>
+                        <Paper
+                          variant="outlined"
+                          sx={{
+                            p: 2,
+                            margin: "auto",
+                            flexGrow: 1,
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === "dark"
+                                ? "#1A2027"
+                                : "#fff",
+                          }}
+                        >
+                          <Grid
+                            item
+                            xs
+                            container
+                            direction="column"
+                            spacing={2}
+                          >
+                            <Grid item xs>
+                              <Grid item xs={12} sm container>
+                                <FormControl>
+                                  <FormLabel id="demo-controlled-radio-buttons-group">
+                                    Execution
+                                  </FormLabel>
+                                  <RadioGroup
+                                    aria-labelledby="demo-controlled-radio-buttons-group"
+                                    name="controlled-radio-buttons-group"
+                                    value={executionType}
+                                    onChange={handleExecutionTypeChange}
+                                  >
+                                    <FormControlLabel
+                                      value="single"
+                                      control={<Radio />}
+                                      label="Single"
+                                    />
+                                    <FormControlLabel
+                                      value="dataFlow"
+                                      control={<Radio />}
+                                      label={
+                                        <>
+                                          <Typography>
+                                            {/** 
+                                             * 
+                                              <Button
+                                              onClick={() => {
+                                                setExecutionType("dataFlow");
+                                                addFunction();
+                                              }}
+                                            >
+                                              <AddCircleOutlineIcon />
+                                            </Button>
+                                             * 
+                                             */}
+                                            Data Flow
+                                          </Typography>
+                                        </>
+                                      }
+                                    />
+                                  </RadioGroup>
+                                </FormControl>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </Grid>
+                      {/** End Execution */}
+
                       {executionType === "single" && (
                         <InputBox
                           title="Docker Image URL"
@@ -544,16 +631,10 @@ const UploadFunctions = () => {
                           handleInput={handleDockerURLChange}
                         />
                       )}
-                      {
-                        executionType === 'dataFlow' && (
-                          <>
-                          {renderFunctions()}
-                          </>
-                        )
-                      }
+                      {executionType === "dataFlow" && <>{renderFunctions()}</>}
 
                       <BackCreate
-                        handleSubmit={handleUploadFile}
+                        handleSubmit={handleCreateFunc}
                         backDisabled={false}
                         submitDisabled={false}
                         submitTitle="Create Function"

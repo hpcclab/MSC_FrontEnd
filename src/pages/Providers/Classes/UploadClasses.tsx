@@ -15,6 +15,7 @@ import {
   SelectChangeEvent,
   Divider,
   TextField,
+  Input,
 } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
@@ -31,13 +32,14 @@ import UploadArea from "../../../components/Upload/UploadArea";
 import axios from "axios";
 import FillDownInput from "../../../components/Upload/FillDownInput";
 import DoubleInput from "../../../components/Upload/DoubleInput";
+import { NearMe } from "@mui/icons-material";
 
 const UploadClasses = () => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState<any>();
 
-  const [chosenFuncList, setChosenFuncList] = useState([""]);
+  const [chosenFuncList, setChosenFuncList] = useState([["", ""]]);
   const [totalItems, setTotalItems] = useState(1);
   const itemCount: number = 777;
   const pageNumbers = Math.ceil(totalItems / itemCount);
@@ -63,7 +65,7 @@ const UploadClasses = () => {
   ));
 
   const handleAddition = () => {
-    setChosenFuncList([...chosenFuncList, ""]);
+    setChosenFuncList([...chosenFuncList, ["", ""]]);
   };
 
   const handleDeletion = (index: number) => {
@@ -72,9 +74,14 @@ const UploadClasses = () => {
   };
 
   const handleSelection = (index: number, value: string) => {
-    chosenFuncList[index] = value;
+    chosenFuncList[index][0] = value;
     setChosenFuncList([...chosenFuncList]);
   };
+
+  const handleFuncAlias = (index: number, value: string) => {
+    chosenFuncList[index][1] = value;
+    setChosenFuncList([...chosenFuncList]);
+  }
 
   const showFuncs = () => {
     return (
@@ -93,7 +100,7 @@ const UploadClasses = () => {
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          value={item}
+                          value={item[0]}
                           label="Function"
                           onChange={(event) => {
                             handleSelection(index, event.target.value);
@@ -102,6 +109,16 @@ const UploadClasses = () => {
                           {renderFunctionSelections}
                         </Select>
                       </FormControl>
+                    </Grid>
+                    <Grid item xs>
+                      <TextField
+                        fullWidth
+                        id="outlined-textarea"
+                        placeholder="with alias"
+                        multiline
+                        value={item[1]}
+                        onChange={(e)=>{handleFuncAlias(index, e.target.value)}}
+                      />
                     </Grid>
                   </Grid>
                   <Grid item>
@@ -129,8 +146,31 @@ const UploadClasses = () => {
   const handleDescChange = (e: any) => {
     setDesc(e.target.value);
   };
-  const handleUploadFile = () => {
-    console.log(test);
+  const handleCreateClass = () => {
+    console.log({
+      functions: [
+        {
+          access: "PUBLIC",
+          defaultArgs: {},
+          forwardRecords: [],
+          function: chosenFuncList[0][0],
+          name: chosenFuncList[0][1],
+        },
+      ],
+      name: name,
+      objectType: "SIMPLE",
+      parents: [],
+      refSpec: [],
+      stateSpec: {
+        defaultProvider: "s3",
+        keySpecs: {
+          access: "PUBLIC",
+          name: files[0][0],
+          provider: "s3",
+        },
+      },
+      stateType: "FILES",
+    });
   };
 
   const [files, setFiles] = useState([["", ""]]);
@@ -180,7 +220,6 @@ const UploadClasses = () => {
     setObjectRefs([...objectRefs]);
   };
 
-
   return (
     <>
       <ThemeProvider theme={createTheme()}>
@@ -203,7 +242,7 @@ const UploadClasses = () => {
           >
             <Container maxWidth="xl" sx={{ mt: 12, mb: 4 }}>
               <Grid container spacing={3}>
-                <UploadTitle title="Upload File" />
+                <UploadTitle title="Create Class" />
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
                   <Grid sx={{ mt: 2 }}>
@@ -239,6 +278,7 @@ const UploadClasses = () => {
                             handleAddition={handleFileAddition}
                             handleChange={handleFileChange}
                             handleDeletion={handleFileDeletion}
+                            useDropDown={false}
                           />
                           {/** End Files Section */}
                           {/** Start Variables Section */}
@@ -254,7 +294,8 @@ const UploadClasses = () => {
                           {/** Start Object Refs Section */}
                           <Divider></Divider>
                           <FillDownInput
-                            dropdownName="Object Name"
+                            useDropDown={true}
+                            dropdownName="Class Name"
                             selectData={data}
                             value={objectRefs}
                             title="Object Refs"
@@ -302,7 +343,7 @@ const UploadClasses = () => {
                       {/** End Function Section */}
                       <Grid container spacing={3} sx={{ ml: 0, mt: 2 }}>
                         <BackCreate
-                          handleSubmit={handleUploadFile}
+                          handleSubmit={handleCreateClass}
                           backDisabled={false}
                           submitDisabled={false}
                           submitTitle="Create Class"

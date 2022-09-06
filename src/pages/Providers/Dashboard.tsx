@@ -33,7 +33,7 @@ const Dashboard = () => {
         (currentObjPage - 1) * objItemCount
     );
     setTotalItems(res.data.total);
-    setObjects(res.data.items);
+    setObjects(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
   };
   useEffect(() => {
     getTotalItems();

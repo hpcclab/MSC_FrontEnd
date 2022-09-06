@@ -33,6 +33,8 @@ const ViewFiles = () => {
     getTotalItems();
   }, [currentPage]);
 
+  
+
   const renderItems = () => {
     try {
       return (

@@ -29,6 +29,7 @@ const SingleItem: React.FC<{
               <ButtonBase
               disabled={props.state != "SUCCEEDED"}
               sx={{ width: 196, height: 112 }} 
+              //onClick={()=>{console.log((window as any).ENV.OC_API)}}
               href={"/v-player/"+props.videoId}
               >
                 <Thumbnail thumbnail={props.thumbnail}/>

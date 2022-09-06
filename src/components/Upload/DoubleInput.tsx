@@ -44,7 +44,8 @@ const DoubleInput: React.FC<{
                             }}
                             multiline
                           />
-                          <Typography>with default value</Typography>
+                          {/**
+                            <Typography>with default value</Typography>
                           <TextField
                             sx={{ mt: 0 }}
                             fullWidth
@@ -57,6 +58,9 @@ const DoubleInput: React.FC<{
                             }}
                             multiline
                           />
+                           
+                           */}
+                          
                         </Grid>
                       </Grid>
                       <Grid item>

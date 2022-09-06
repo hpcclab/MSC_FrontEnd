@@ -31,20 +31,23 @@ const ViewerPlayVideo = () => {
   const videoId = useParams<urlParams>().videoId;
   const [videoData, setVideoData] = useState<any>([]);
   const [taskStatus, setTaskStatus] = useState("");
-
+  const [objClass, setObjClass] = useState("");
   const getVideoInfo = async () => {
     const res = await axios.get(
       "http://oc.oaas.10.131.36.40.nip.io/api/objects/" + videoId
     );
     setVideoData(res.data);
     setTaskStatus(res.data.status.taskStatus);
+    setObjClass(res.data.cls);
   };
-  const [oaasFunctions, setOaaSFunctions] = useState<any>([])
-  
+  const [oaasFunctions, setOaaSFunctions] = useState<any>([]);
+
   const getFunctions = async () => {
-    const res = await axios.get('http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=10000&offset=0')
-    setOaaSFunctions(res.data.items)
-  }
+    const res = await axios.get(
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes/" + objClass
+    );
+    setOaaSFunctions(res.data.functions);
+  };
 
   useEffect(() => {
     getVideoInfo();
@@ -64,11 +67,8 @@ const ViewerPlayVideo = () => {
     setFunctions([...functions]);
   };
   const renderOaaSFunctions = oaasFunctions.map((item: any) => (
-    <MenuItem value={item.name}>
-      {item.name}
-    </MenuItem>
+    <MenuItem value={item.name}>{item.name}</MenuItem>
   ));
-
 
   const renderFunctions = () => {
     return (
@@ -207,7 +207,8 @@ const ViewerPlayVideo = () => {
                         title={videoData.embeddedRecord.title}
                         desc={videoData.embeddedRecord.desc}
                       />
-                      <Grid>
+                      {/**
+                        <Grid>
                         <Grid item xs container direction="column" spacing={2}>
                           <Grid item xs>
                             <Typography variant="h3">
@@ -224,11 +225,16 @@ const ViewerPlayVideo = () => {
                           </Button>
                         </Grid>
                       </Grid>
-                      {renderFunctions()}
+                       
+                       */}
+
                       <Button variant="contained">Apply</Button>
                     </>
-                  ): (
-                    <VideoInfo title="Welcome to MSC's web interface" desc="Select a video to play it or go to the stream provider section"/>
+                  ) : (
+                    <VideoInfo
+                      title="Welcome to MSC's web interface"
+                      desc="Select a video to play it or go to the stream provider section"
+                    />
                   )}
                 </Grid>
               </Grid>
