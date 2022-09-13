@@ -25,7 +25,7 @@ const UploadFiles = () => {
   };
   const handleUploadFile = () => {
     setProgress(0)
-    axios.post('http://oc.oaas.10.131.36.40.nip.io/api/object-construct', {
+    axios.post((window as any).ENV.OC_API + 'api/object-construct', {
       cls: "builtin.basic.file",
       embeddedRecord: {
         title: name,
@@ -40,7 +40,7 @@ const UploadFiles = () => {
         onUploadProgress: prog => {
           setProgress(Math.round((prog.loaded / prog.total) * 100))
         }
-      })
+      }).then(function () {alert("File has sucessfully uploaded!")})
     })
   };
 
@@ -84,12 +84,12 @@ const UploadFiles = () => {
                         label="Enter Description"
                         handleInput={handleDescChange}
                       />
-                      <UploadArea title="Source" setFile={setFile} setFileName={setFileName} fileName={fileName}/>
+                      <UploadArea acceptType="*" title="Source" setFile={setFile} setFileName={setFileName} fileName={fileName}/>
                       
                       <BackCreate
                         handleSubmit={handleUploadFile}
                         backDisabled={progress !== 0 && progress !== 100}
-                        submitDisabled={(progress !== 0 && progress !== 100) || (file === undefined || name === "" || desc === "")}
+                        submitDisabled={(progress !== 0 && progress !== 100) || (file === undefined || name === "")}
                         submitTitle="Upload File"
                         goBackTo="/sp-file-list"
                       />

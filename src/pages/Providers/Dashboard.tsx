@@ -175,8 +175,7 @@ const Dashboard = () => {
                                 redirect="/"
                                 canUpload={false}
                               />
-                              <Button href="/sp-upload-video" variant="contained" sx={{mt:2}}>Create New Video as an Object</Button>
-                              <Button href="/sp-upload-file" variant="contained" sx={{mt:2}}>Create New File as an Object</Button>
+                              <Button fullWidth href="/sp-upload-file" variant="contained" sx={{mt:2}}>Create New Object</Button>
                             </Grid>
                           </Grid>
                         </Paper>
@@ -218,8 +217,7 @@ const Dashboard = () => {
                                 redirect="/"
                                 canUpload={false}
                               />
-                              <Button href="/sp-upload-function" variant="contained" sx={{mt:2}}>Create New Function</Button>
-                              <Button href="/sp-upload-class" variant="contained" sx={{mt:2}}>Create New Class and Apply Functions</Button>
+                              <Button fullWidth href="/sp-upload-function" variant="contained" sx={{mt:2}}>Create New Function</Button>
                             </Grid>
                           </Grid>
                         </Paper>

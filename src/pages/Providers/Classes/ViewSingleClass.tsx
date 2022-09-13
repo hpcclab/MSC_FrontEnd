@@ -20,7 +20,7 @@ const className = useParams<urlParams>().className;
   };
 
   const [totalItems, setTotalItems] = useState(1);
-  const itemCount: number = 7;
+  const itemCount: number = 5;
   const pageNumbers = Math.ceil(totalItems / itemCount);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<any>([]);
@@ -51,8 +51,8 @@ const className = useParams<urlParams>().className;
                   desc={item.embeddedRecord.desc}
                   state={item.status.taskStatus}
                   videoId={''}
-                  height={115}
-                  thumbnail={null}
+                  height={145}
+                  thumbnail={item.embeddedRecord.thumbnail}
                 />
               </>
             );
@@ -106,7 +106,7 @@ const className = useParams<urlParams>().className;
                     count={pageNumbers}
                     currentPage={currentPage}
                     handleChange={handlePageChange}
-                    redirect="/sp-upload-class"
+                    redirect="/sp-upload-video"
                     canUpload={true}
                   />
                   {/** End Components go here */}

@@ -1,4 +1,4 @@
-import { Paper, Grid, ButtonBase, Typography } from "@mui/material";
+import { Paper, Grid, ButtonBase, Typography, Button } from "@mui/material";
 import React from "react";
 import Thumbnail from "./components/Thumbnail";
 
@@ -23,23 +23,23 @@ const SingleItem: React.FC<{
             theme.palette.mode === "dark" ? "#1A2027" : "#fff",
         }}
       >
-        <Grid container spacing={2} >
-          {props.thumbnail !== null && (
+        <Grid container spacing={2}>
+          {!(props.thumbnail === undefined || props.thumbnail === null) && (
             <Grid item>
               <ButtonBase
-              disabled={props.state != "SUCCEEDED"}
-              sx={{ width: 196, height: 112 }} 
-              //onClick={()=>{console.log((window as any).ENV.OC_API)}}
-              href={"/v-player/"+props.videoId}
+                disabled={props.state != "SUCCEEDED"}
+                sx={{ width: 196, height: 112 }}
+                //onClick={()=>{console.log((window as any).ENV.OC_API)}}
+                href={"/v-player/" + props.videoId}
               >
-                <Thumbnail thumbnail={props.thumbnail}/>
+                <Thumbnail thumbnail={props.thumbnail} />
               </ButtonBase>
             </Grid>
           )}
 
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs >
+              <Grid item xs>
                 <Typography noWrap gutterBottom variant="h4" component="div">
                   {props.title}
                 </Typography>
@@ -48,8 +48,18 @@ const SingleItem: React.FC<{
                 </Typography>
               </Grid>
             </Grid>
-            <Grid item >
-              <Typography variant="h4" sx={{ mt:4, ml: 10 }}>
+
+            <Grid item justifyContent="flex-end">
+                <Button
+                  color="error"
+                  variant="contained"
+                  disableElevation
+                >
+                  <Typography sx={{ cursor: "pointer" }} variant="body2">
+                    Delete
+                  </Typography>
+                </Button>
+              <Typography variant="h4" sx={{ mt: 1.5 }}>
                 {props.state}
               </Typography>
             </Grid>

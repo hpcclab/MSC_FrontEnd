@@ -8,6 +8,7 @@ const UploadArea: React.FC<{
   setFileName: React.Dispatch<React.SetStateAction<string>>;
   fileName: string;
   title: string;
+  acceptType: string;
 }> = (props) => {
   return (
     <>
@@ -25,6 +26,7 @@ const UploadArea: React.FC<{
           <Typography variant="h5">{props.title}</Typography>
         </Paper>
         <Dropzone
+          accept={props.acceptType}
           onDrop={(acceptedFiles) => {
             props.setFileName(acceptedFiles[0].name);
             props.setFile(acceptedFiles[0]);

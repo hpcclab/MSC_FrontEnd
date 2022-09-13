@@ -81,7 +81,7 @@ const UploadClasses = () => {
   const handleFuncAlias = (index: number, value: string) => {
     chosenFuncList[index][1] = value;
     setChosenFuncList([...chosenFuncList]);
-  }
+  };
 
   const showFuncs = () => {
     return (
@@ -117,9 +117,12 @@ const UploadClasses = () => {
                         placeholder="with alias"
                         multiline
                         value={item[1]}
-                        onChange={(e)=>{handleFuncAlias(index, e.target.value)}}
+                        onChange={(e) => {
+                          handleFuncAlias(index, e.target.value);
+                        }}
                       />
                     </Grid>
+                    <Divider></Divider>
                   </Grid>
                   <Grid item>
                     <Button
@@ -148,6 +151,7 @@ const UploadClasses = () => {
   };
   const handleCreateClass = () => {
     console.log({
+      description: desc,
       functions: [
         {
           access: "PUBLIC",
@@ -267,14 +271,14 @@ const UploadClasses = () => {
                             flexDirection: "column",
                           }}
                         >
-                          <Typography variant="h3">Context</Typography>
+                          <Typography variant="h3">Attributes</Typography>
                           {/** Start Files Section */}
                           <Divider></Divider>
                           <FillDownInput
                             dropdownName="File Name"
                             selectData={data}
                             value={files}
-                            title="File Name"
+                            title="Unstructured Data"
                             handleAddition={handleFileAddition}
                             handleChange={handleFileChange}
                             handleDeletion={handleFileDeletion}
@@ -282,14 +286,7 @@ const UploadClasses = () => {
                           />
                           {/** End Files Section */}
                           {/** Start Variables Section */}
-                          <Divider></Divider>
-                          <DoubleInput
-                            value={variables}
-                            title="Variables"
-                            handleAddition={handleVariableAddition}
-                            handleChange={handleVariableChange}
-                            handleDeletion={handleVariableDeletion}
-                          />
+
                           {/** End Variables Section */}
                           {/** Start Object Refs Section */}
                           <Divider></Divider>
@@ -298,7 +295,7 @@ const UploadClasses = () => {
                             dropdownName="Class Name"
                             selectData={data}
                             value={objectRefs}
-                            title="Object Refs"
+                            title="Object References"
                             handleAddition={handleObjectRefAddition}
                             handleChange={handleObjectRefChange}
                             handleDeletion={handleObjectRefDeletion}

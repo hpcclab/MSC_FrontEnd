@@ -22,6 +22,7 @@ const ViewerSidebar = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
+  const [itemCount, setItemCount] = useState(0);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -31,6 +32,7 @@ const ViewerSidebar = () => {
       );
       setData(res.data.items);
       setLoading(false);
+      setItemCount(res.data.total);
     };
     fetchPosts();
   }, []);
@@ -63,7 +65,12 @@ const ViewerSidebar = () => {
           setInput(e.target.value);
         }}
       ></Input>
-      {renderData()}
+      {itemCount !== 0 && (
+        <>
+        {renderData()}
+        </>
+      )
+      }
     </>
   );
 };

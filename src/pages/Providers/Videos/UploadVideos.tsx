@@ -11,7 +11,13 @@ import {
   InputLabel,
   Select,
   Divider,
+  LinearProgress,
+  TextField,
+  Typography,
 } from "@mui/material";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
 import React, { useEffect, useState } from "react";
 import SingleItem from "../../../components/Items/SingleItem";
 import Navbar from "../../../components/Navbar/Navbar";
@@ -29,7 +35,7 @@ const UploadVideos = () => {
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState<any>();
   const [name, setName] = useState("");
-  const [thumbnailURL, setThumbnailURL] = useState("");
+  var thumbnailURL = "";
   const [thumbnailFile, setThumbnailFile] = useState<any>();
   const [thumbnailName, setThumbnailName] = useState(
     "There is no file selected"
@@ -79,7 +85,7 @@ const UploadVideos = () => {
   const handleUploadThumbnail = async () => {
     setProgress(0);
     await axios
-      .post("http://oc.oaas.10.131.36.40.nip.io/api/object-construct", {
+      .post((window as any).ENV.OC_API + "api/object-construct", {
         cls: "builtin.basic.file",
         embeddedRecord: {
           title: name + " thumbnail",
@@ -87,13 +93,12 @@ const UploadVideos = () => {
         },
         keys: ["file"],
       })
-      .then(function (response) {
-        setThumbnailURL(
-          "http://cds.10.131.36.40.nip.io/oal/" +
-            response.data.object.id +
-            "/file"
-        );
-        axios
+      .then(async function (response) {
+        thumbnailURL =
+        (window as any).ENV.CDS_API + "oal/" +
+          response.data.object.id +
+          "/file";
+        await axios
           .put(response.data.uploadUrls.file, thumbnailFile, {
             headers: {
               "Content-Type": thumbnailFile.type,
@@ -110,9 +115,9 @@ const UploadVideos = () => {
 
   const handleUploadVideo = async () => {
     setProgress(0);
-    console.log(thumbnailURL);
+    console.log(thumbnailURL, 69);
     await axios
-      .post("http://oc.oaas.10.131.36.40.nip.io/api/object-construct", {
+      .post((window as any).ENV.OC_API + "api/object-construct", {
         cls: "example.video",
         embeddedRecord: {
           title: name,
@@ -134,20 +139,22 @@ const UploadVideos = () => {
           .then(function (res) {
             axios
               .get(
-                "http://cds.10.131.36.40.nip.io/oal/" +
+                (window as any).ENV.CDS_API + "oal/" +
                   response.data.object.id +
                   ":tohls()()"
               )
               .then(function (r) {
                 setProgress(0);
-                console.log(r);
+                alert("Object has sucessfully been constructed!");
               });
           });
       });
   };
 
   const handleUploadFile = async () => {
-    await handleUploadThumbnail();
+    if (thumbnailFile !== undefined) {
+      await handleUploadThumbnail();
+    }
     await handleUploadVideo();
   };
 
@@ -157,7 +164,9 @@ const UploadVideos = () => {
     const res = await axios.get(
       "http://oc.oaas.10.131.36.40.nip.io/api/classes/builtin.basic.file/objects?limit=100000&offset=0"
     );
-    setChooseableFiles(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
+    setChooseableFiles(
+      res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
+    );
     setNumFiles(res.data.total as number);
   };
   const [choosableObj, setChooseableObj] = useState<any>([]);
@@ -166,12 +175,70 @@ const UploadVideos = () => {
       "http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=100000&offset=0"
     );
     //res.data.items.splice(2, 3);
-    setChooseableObj(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
+    setChooseableObj(
+      res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
+    );
   };
   useEffect(() => {
     getChoosableFiles();
     getChoosableObj();
   }, [5]);
+
+  const [vars, setVars] = useState<any>([""]);
+
+  const handleAddition = () => {
+    setVars([...vars, ""]);
+  };
+
+  const handleDeletion = (index: number) => {
+    vars.splice(index, 1);
+    setVars([...vars]);
+  };
+
+  const handleSelection = (index: number, value: string) => {
+    vars[index] = value;
+    setVars([...vars]);
+  };
+  const showVars = () => {
+    return (
+      <>
+        {vars.map((item: any, index: number) => {
+          return (
+            <>
+              <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item xs>
+                      <TextField
+                        fullWidth
+                        id="outlined-textarea"
+                        label="Default Value (Fill)"
+                        placeholder="Input Variable Name"
+                        multiline
+                        onChange={(e) => {
+                          handleSelection(index, e.target.value);
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      onClick={() => {
+                        handleDeletion(index);
+                      }}
+                      sx={{ mt: 1 }}
+                    >
+                      <RemoveCircleOutlineIcon />
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </>
+          );
+        })}
+      </>
+    );
+  };
 
   return (
     <>
@@ -212,12 +279,14 @@ const UploadVideos = () => {
                         handleInput={handleDescChange}
                       />
                       <UploadArea
+                        acceptType="video/mp4"
                         title="Source"
                         setFile={setFile}
                         setFileName={setFileName}
                         fileName={fileName}
                       />
                       <UploadArea
+                        acceptType="image/*"
                         title="Thumbnail"
                         setFile={setThumbnailFile}
                         setFileName={setThumbnailName}
@@ -231,40 +300,30 @@ const UploadVideos = () => {
                             flexDirection: "column",
                           }}
                         >
-                          {numFiles !== 0 && (
-                            <>
-                              <ContextItem
-                                isDropdown={true}
-                                title="Files"
-                                contextData={contextFiles}
-                                handleSelection={handleFileSelection}
-                                toggle={toggleFiles}
-                                onToggle={handleToggleFiles}
-                                selectData={choosableFiles}
-                              />
-                              <Divider sx={{ mt: 2 }}></Divider>
-                              <ContextItem
-                                isDropdown={false}
-                                title="Variables"
-                                contextData={contextVariables}
-                                handleSelection={handleVariableSelection}
-                                toggle={toggleVariables}
-                                onToggle={handleToggleVariables}
-                                selectData={choosableFiles}
-                              />
-                            </>
-                          )}
-
-                          <Divider sx={{ mt: 2 }}></Divider>
-                          <ContextItem
-                            isDropdown={true}
-                            title="Object References"
-                            contextData={contextObjRefs}
-                            handleSelection={handleObjRefSelection}
-                            toggle={toggleObjRef}
-                            onToggle={handleToggleObjRef}
-                            selectData={choosableObj}
-                          />
+                          <Grid item xs={12} sm container>
+                                <Grid
+                                  item
+                                  xs
+                                  container
+                                  direction="column"
+                                  spacing={2}
+                                >
+                                  <Grid item xs>
+                                    <Typography variant="h3">
+                                      Variables
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                                <Grid item>
+                                  <Button onClick={handleAddition}>
+                                    <AddCircleOutlineIcon
+                                      sx={{ mt: 0.5 }}
+                                      fontSize="large"
+                                    />
+                                  </Button>
+                                </Grid>
+                                {showVars()}
+                              </Grid>
                         </Paper>
                       </Grid>
                       <Grid
@@ -275,13 +334,23 @@ const UploadVideos = () => {
                       >
                         <BackCreate
                           handleSubmit={handleUploadFile}
-                          backDisabled={false}
-                          submitDisabled={false}
+                          backDisabled={progress !== 0 && progress !== 100}
+                          submitDisabled={
+                            (progress !== 0 && progress !== 100) ||
+                            file === undefined ||
+                            name === ""
+                          }
                           submitTitle="Upload Video"
                           goBackTo="/sp-video-list"
                         />
                       </Grid>
                     </Grid>
+                    <LinearProgress
+                      sx={{ mt: 2 }}
+                      variant="determinate"
+                      value={progress}
+                    />
+                    {progress}%
                   </Grid>
                   {/** End Components go here */}
                 </Grid>

@@ -54,13 +54,27 @@ const FileItem: React.FC<{
                 onClick={handleDownloadRequest}
                 variant="contained"
                 disableElevation
-                sx={{ ml: 3, mt: 3 }}
+                sx={{ ml: 3, mt: 1 }}
               >
                 <Typography sx={{ cursor: "pointer" }} variant="body2">
                   Download
                 </Typography>
               </Button>
+              <Grid item>
+              <Button
+                color="error"
+                onClick={handleDownloadRequest}
+                variant="contained"
+                disableElevation
+                sx={{ ml: 3, mt: 1 }}
+              >
+                <Typography sx={{ cursor: "pointer" }} variant="body2">
+                  Delete
+                </Typography>
+              </Button>
             </Grid>
+            </Grid>
+            
           </Grid>
         </Grid>
       </Paper>

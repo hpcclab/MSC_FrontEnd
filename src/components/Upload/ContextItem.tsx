@@ -24,8 +24,8 @@ const ContextItem: React.FC<{
   selectData: any[];
 }> = (props) => {
   const renderSelections = props.selectData.map((item: any) => (
-    <MenuItem value={item.embeddedRecord.title}>
-      {item.embeddedRecord.title}
+    <MenuItem value={item.id}>
+      {item.id} - {item.embeddedRecord.title}
     </MenuItem>
   ));
 

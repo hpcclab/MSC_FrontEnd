@@ -42,16 +42,15 @@ const UploadFunctions = () => {
   };
   const handleCreateFunc = () => {
     console.log({
-      "functions": [
+      functions: [
         {
-          "access": "PUBLIC",
-          "defaultArgs": {},
-          "forwardRecords": [],
-          "function": name,
-          "name": name,
-        }
-
-      ]
+          access: "PUBLIC",
+          defaultArgs: {},
+          forwardRecords: [],
+          function: name,
+          name: name,
+        },
+      ],
     });
   };
 
@@ -176,56 +175,25 @@ const UploadFunctions = () => {
                 <Grid item xs={12} sm container>
                   <Grid item xs container direction="column" spacing={2}>
                     <Grid item xs>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="demo-controlled-radio-buttons-group"
-                          name="controlled-radio-buttons-group"
-                          value={item[0]}
-                          onChange={(e) => {
-                            changeRefType(index, e.target.value);
-                          }}
-                        >
-                          <FormControlLabel
-                            value="file"
-                            control={<Radio />}
-                            label="File"
-                            onClick={() => {changeRefValue(index, "built.basic.file")}}
-                          />
-                          <FormControlLabel
-                            value="object"
-                            control={<Radio />}
-                            label={
-                              <>
-                                <Typography>
-                                  Object from Class
-                                  <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">
-                                      Class
-                                    </InputLabel>
-                                    <Select
-                                      labelId="demo-simple-select-label"
-                                      id="demo-simple-select"
-                                      value={item[1]}
-                                      label="Class Name"
-                                      onClick={() => {
-                                        changeRefType(index, "object");
-                                      }}
-                                      onChange={(event) => {
-                                        changeRefValue(
-                                          index,
-                                          event.target.value
-                                        );
-                                      }}
-                                    >
-                                      {renderClassSelection}
-                                    </Select>
-                                  </FormControl>
-                                </Typography>
-                              </>
-                            }
-                          />
-                        </RadioGroup>
-                      </FormControl>
+                        <FormControl fullWidth>
+                          <InputLabel id="demo-simple-select-label">
+                            Class
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={item[1]}
+                            label="Class Name"
+                            onClick={() => {
+                              changeRefType(index, "object");
+                            }}
+                            onChange={(event) => {
+                              changeRefValue(index, event.target.value);
+                            }}
+                          >
+                            {renderClassSelection}
+                          </Select>
+                        </FormControl>
                     </Grid>
                   </Grid>
                   <Grid item>

@@ -14,7 +14,7 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
     const res = await axios.get(
       "http://oc.oaas.10.131.36.40.nip.io/api/classes?limit=10000&offset=0"
     );
-    setData(res.data.items);
+    setData(res.data.items.filter((item: any) => item.name !== "example.video.hls" && item.name !== "builtin.basic.file"));
   };
 
   useEffect(() => {
@@ -53,16 +53,6 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
             </Button>
           </Paper>
           <Paper variant="outlined">
-            <Button href="/sp-video-list" disabled={props.section === "videos"}>
-              <Typography variant="h4">Videos</Typography>
-            </Button>
-          </Paper>
-          <Paper variant="outlined">
-            <Button href="/sp-file-list" disabled={props.section === "files"}>
-              <Typography variant="h4">Files</Typography>
-            </Button>
-          </Paper>
-          <Paper variant="outlined">
             <Button
               href="/sp-function-list"
               disabled={props.section === "functions"}
@@ -70,6 +60,15 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
               <Typography variant="h4">Functions</Typography>
             </Button>
           </Paper>
+          <Paper variant="outlined">
+            <Button
+              href="/sp-class-list"
+              disabled={props.section === "classes"}
+            >
+              <Typography variant="h4">Classes</Typography>
+            </Button>
+          </Paper>
+          
           <Paper variant="outlined">
             <Button
               href="/sp-object-list"
@@ -82,7 +81,8 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
           {showClasses && (
             <Box sx={{ height: 420, overflow: "auto" }}>
               <List component="nav">
-                <ClassesSidebar name="classes" url={props.url} redirect="/sp-class-list" />
+              <ClassesSidebar name="example.video.hls" url={props.url} redirect={"/sp-video-list"} />
+              <ClassesSidebar name="builtin.basic.file" url={props.url} redirect={"/sp-file-list"} />
                 {renderClasses()}
               </List>
             </Box>
