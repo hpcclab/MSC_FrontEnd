@@ -1,20 +1,21 @@
-import { ThemeProvider } from '@emotion/react';
-import { PropaneSharp } from '@mui/icons-material';
-import { createTheme, Box, CssBaseline, Container, Grid } from '@mui/material';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import SingleItem from '../../../components/Items/SingleItem';
-import Navbar from '../../../components/Navbar/Navbar';
-import Bottom from '../../../components/Pagination/Bottom';
-import Player from '../../../components/Viewer/Player';
+import { ThemeProvider } from "@emotion/react";
+import { PropaneSharp } from "@mui/icons-material";
+import { createTheme, Box, CssBaseline, Container, Grid } from "@mui/material";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import SingleItem from "../../../components/Items/SingleItem";
+import Navbar from "../../../components/Navbar/Navbar";
+import Bottom from "../../../components/Pagination/Bottom";
+import Player from "../../../components/Viewer/Player";
+import VideoInfo from "../../../components/Viewer/VideoInfo";
 
 type urlParams = {
-    className: string;
-  };
+  className: string;
+};
 
 const ViewSingleClass = () => {
-const className = useParams<urlParams>().className;
+  const className = useParams<urlParams>().className;
   const handlePageChange = (e: any, p: any) => {
     setCurrentPage(p);
   };
@@ -26,7 +27,9 @@ const className = useParams<urlParams>().className;
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes/"+ className +"/objects?limit=" +
+      "http://oc.oaas.10.131.36.40.nip.io/api/classes/" +
+        className +
+        "/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -50,7 +53,7 @@ const className = useParams<urlParams>().className;
                   title={item.embeddedRecord.title}
                   desc={item.embeddedRecord.desc}
                   state={item.status.taskStatus}
-                  videoId={''}
+                  videoId={item.id}
                   height={145}
                   thumbnail={item.embeddedRecord.thumbnail}
                 />
@@ -59,10 +62,7 @@ const className = useParams<urlParams>().className;
           })}
         </>
       );
-    } catch (error) {
-      
-    }
-    
+    } catch (error) {}
   };
 
   return (
@@ -71,7 +71,7 @@ const className = useParams<urlParams>().className;
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section={className} url={className}/>
+          <Navbar isViewer={false} section={className} url={className} />
           {/** Page Content */}
           <Box
             component="main"
@@ -89,24 +89,25 @@ const className = useParams<urlParams>().className;
               <Grid container spacing={3}>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
-                  <Grid sx={{ mt: 8, height: 825 }}>
+                  <Grid sx={{ mt: 8, mb:5 }}>
                     {/** Page contents go here */}
                     {totalItems !== 0 ? (
-                      <>
-                      {renderItems()}
-                      </>
+                      <>{renderItems()}</>
                     ) : (
-                    <>
-                    </>)
-                    
-                    }
+                      <>
+                        <VideoInfo
+                          title="There are no objects created for this class"
+                          desc="Try creating the very first object!"
+                        />
+                      </>
+                    )}
                   </Grid>
                   {/** Pagination and Upload Button */}
                   <Bottom
                     count={pageNumbers}
                     currentPage={currentPage}
                     handleChange={handlePageChange}
-                    redirect="/sp-upload-video"
+                    redirect="/sp-upload-object"
                     canUpload={true}
                   />
                   {/** End Components go here */}
@@ -118,6 +119,6 @@ const className = useParams<urlParams>().className;
       </ThemeProvider>
     </>
   );
-}
+};
 
 export default ViewSingleClass;

@@ -58,6 +58,7 @@ const UploadClasses = () => {
 
   useEffect(() => {
     getTotalItems();
+    getClassList();
   }, [currentPage]);
 
   const renderFunctionSelections = data.map((item: any) => (
@@ -143,38 +144,76 @@ const UploadClasses = () => {
     );
   };
 
+  const [classList, setClassList] = useState([])
+
+  const getClassList = async () => {
+    const res = await axios.get((window as any).ENV.OC_API + "api/classes")
+    setClassList(res.data.items)
+  }
+
+  const renderClassSelection = classList.map((item: any) => (
+    <MenuItem value={item.name}>{item.name}</MenuItem>
+  ));
+
   const handleNameChange = (e: any) => {
     setName(e.target.value);
   };
   const handleDescChange = (e: any) => {
     setDesc(e.target.value);
   };
+
+  var functionsJSON: any = [{}];
+  var keySpecsJSON: any = [{}];
+  var refSpecsJSON: any = [{}];
   const handleCreateClass = () => {
-    console.log({
+    // Convert chosenFuncList array into the proper JSON
+    functionsJSON = chosenFuncList.map((element, index) => ({
+      access: "PUBLIC",
+      defaultArgs: {},
+      forwardRecords: [],
+      function: chosenFuncList[index][0],
+      name: chosenFuncList[index][1],
+    }));
+    // Convert files (unstructured data / keySpecs) array into the proper JSON
+    keySpecsJSON = files.map((element, index) => ({
+      access: "PUBLIC",
+      name: files[index][0],
+      provider: "s3",
+    }));
+    // Convert objectRefs (refSpecs) array into the proper JSON
+    refSpecsJSON = objectRefs.map((element, index)=> ({
+      cls: objectRefs[index][1],
+      name: objectRefs[index][0],
+    }))
+
+
+    //console.log(functionsJSON);
+    axios.post((window as any).ENV.OC_API + "api/classes", {
       description: desc,
-      functions: [
-        {
-          access: "PUBLIC",
-          defaultArgs: {},
-          forwardRecords: [],
-          function: chosenFuncList[0][0],
-          name: chosenFuncList[0][1],
-        },
-      ],
+      functions: functionsJSON,
       name: name,
       objectType: "SIMPLE",
       parents: [],
-      refSpec: [],
+      refSpec: refSpecsJSON,
       stateSpec: {
         defaultProvider: "s3",
-        keySpecs: {
-          access: "PUBLIC",
-          name: files[0][0],
-          provider: "s3",
-        },
+        keySpecs: keySpecsJSON,
       },
       stateType: "FILES",
-    });
+    })
+    // console.log({
+    //   description: desc,
+    //   functions: functionsJSON,
+    //   name: name,
+    //   objectType: "SIMPLE",
+    //   parents: [],
+    //   refSpec: refSpecsJSON,
+    //   stateSpec: {
+    //     defaultProvider: "s3",
+    //     keySpecs: keySpecsJSON,
+    //   },
+    //   stateType: "FILES",
+    // });
   };
 
   const [files, setFiles] = useState([["", ""]]);
@@ -293,7 +332,7 @@ const UploadClasses = () => {
                           <FillDownInput
                             useDropDown={true}
                             dropdownName="Class Name"
-                            selectData={data}
+                            selectData={classList}
                             value={objectRefs}
                             title="Object References"
                             handleAddition={handleObjectRefAddition}

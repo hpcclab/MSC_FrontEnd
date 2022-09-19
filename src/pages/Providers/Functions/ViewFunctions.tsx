@@ -6,6 +6,7 @@ import SingleItem from "../../../components/Items/SingleItem";
 import Navbar from "../../../components/Navbar/Navbar";
 import Bottom from "../../../components/Pagination/Bottom";
 import Player from "../../../components/Viewer/Player";
+import VideoInfo from "../../../components/Viewer/VideoInfo";
 
 const ViewFunctions = () => {
   const handlePageChange = (e: any, p: any) => {
@@ -13,7 +14,7 @@ const ViewFunctions = () => {
   };
 
   const [totalItems, setTotalItems] = useState(1);
-  const itemCount: number = 7;
+  const itemCount: number = 5;
   const pageNumbers = Math.ceil(totalItems / itemCount);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<any>([]);
@@ -79,9 +80,12 @@ const ViewFunctions = () => {
               <Grid container spacing={3}>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
-                  <Grid sx={{ mt: 8, height: 825 }}>
+                  <Grid sx={{ mt: 8, mb:5 }}>
                     {/** Page contents go here */}
-                    {totalItems !== 0 ? <>{renderItems()}</> : <></>}
+                    {totalItems !== 0 ? <>{renderItems()}</> : <><VideoInfo
+                          title="There are no functions created"
+                          desc="Try creating the very first function!"
+                        /></>}
                   </Grid>
                   {/** Pagination and Upload Button */}
                   <Bottom

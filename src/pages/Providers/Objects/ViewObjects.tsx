@@ -6,6 +6,7 @@ import SingleItem from "../../../components/Items/SingleItem";
 import Navbar from "../../../components/Navbar/Navbar";
 import Bottom from "../../../components/Pagination/Bottom";
 import Player from "../../../components/Viewer/Player";
+import VideoInfo from "../../../components/Viewer/VideoInfo";
 
 const ViewObjects = () => {
   const handlePageChange = (e: any, p: any) => {
@@ -13,7 +14,7 @@ const ViewObjects = () => {
   };
 
   const [totalItems, setTotalItems] = useState(1);
-  const itemCount: number = 7;
+  const itemCount: number = 5;
   const pageNumbers = Math.ceil(totalItems / itemCount);
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<any>([]);
@@ -25,7 +26,9 @@ const ViewObjects = () => {
         (currentPage - 1) * itemCount
     );
     setTotalItems(res.data.total);
-    setData(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
+    setData(
+      res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
+    );
   };
 
   useEffect(() => {
@@ -43,19 +46,16 @@ const ViewObjects = () => {
                   title={item.embeddedRecord.title}
                   desc={item.embeddedRecord.desc}
                   state={item.cls}
-                  videoId={''}
+                  videoId={item.id}
                   height={115}
-                  thumbnail={null}
+                  thumbnail={item.embeddedRecord.thumbnail}
                 />
               </>
             );
           })}
         </>
       );
-    } catch (error) {
-      
-    }
-    
+    } catch (error) {}
   };
 
   return (
@@ -64,7 +64,7 @@ const ViewObjects = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="objects" url=""/>
+          <Navbar isViewer={false} section="objects" url="" />
           {/** Page Content */}
           <Box
             component="main"
@@ -82,25 +82,26 @@ const ViewObjects = () => {
               <Grid container spacing={3}>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
-                  <Grid sx={{ mt: 8, height: 825 }}>
+                  <Grid sx={{ mt: 8, mb: 5 }}>
                     {/** Page contents go here */}
                     {totalItems !== 0 ? (
-                      <>
-                      {renderItems()}
-                      </>
+                      <>{renderItems()}</>
                     ) : (
-                    <>
-                    </>)
-                    
-                    }
+                      <>
+                        <VideoInfo
+                          title="There are no objects created"
+                          desc="Try creating the very first object!"
+                        />
+                      </>
+                    )}
                   </Grid>
                   {/** Pagination and Upload Button */}
                   <Bottom
                     count={pageNumbers}
                     currentPage={currentPage}
                     handleChange={handlePageChange}
-                    redirect="/"
-                    canUpload={false}
+                    redirect="/sp-upload-object"
+                    canUpload={true}
                   />
                   {/** End Components go here */}
                 </Grid>

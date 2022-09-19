@@ -108,14 +108,14 @@ const UploadVideos = () => {
             },
           })
           .then(function (res) {
-            console.log(thumbnailURL, 5);
+            //console.log(thumbnailURL, 5);
           });
       });
   };
 
   const handleUploadVideo = async () => {
     setProgress(0);
-    console.log(thumbnailURL, 69);
+    //console.log(thumbnailURL, 69);
     await axios
       .post((window as any).ENV.OC_API + "api/object-construct", {
         cls: "example.video",
@@ -127,6 +127,7 @@ const UploadVideos = () => {
         keys: ["video"],
       })
       .then(function (response) {
+        //console.log(file)
         axios
           .put(response.data.uploadUrls.video, file, {
             headers: {

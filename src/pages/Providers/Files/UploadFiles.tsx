@@ -8,7 +8,6 @@ import InputBox from "../../../components/Upload/InputBox";
 import UploadArea from "../../../components/Upload/UploadArea";
 import UploadTitle from "../../../components/Upload/UploadTitle";
 import axios from "axios";
-import { isConstructorDeclaration } from "typescript";
 
 const UploadFiles = () => {
   const [fileName, setFileName] = useState("There is no file selected");
@@ -84,7 +83,7 @@ const UploadFiles = () => {
                         label="Enter Description"
                         handleInput={handleDescChange}
                       />
-                      <UploadArea acceptType="*" title="Source" setFile={setFile} setFileName={setFileName} fileName={fileName}/>
+                      <UploadArea acceptType="" title="Source" setFile={setFile} setFileName={setFileName} fileName={fileName}/>
                       
                       <BackCreate
                         handleSubmit={handleUploadFile}

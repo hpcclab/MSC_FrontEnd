@@ -174,7 +174,7 @@ const ViewerPlayVideo = () => {
                             }}
                           />
                           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                            Input References
+                            Input Objects
                           </Typography>
                           <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">

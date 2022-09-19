@@ -15,6 +15,7 @@ import SingleItem from "../../components/Items/SingleItem";
 import Navbar from "../../components/Navbar/Navbar";
 import Player from "../../components/Viewer/Player";
 import Bottom from "../../components/Pagination/Bottom";
+import VideoInfo from "../../components/Viewer/VideoInfo";
 
 const Dashboard = () => {
   const handleObjPageChange = (e: any, p: any) => {
@@ -33,7 +34,9 @@ const Dashboard = () => {
         (currentObjPage - 1) * objItemCount
     );
     setTotalItems(res.data.total);
-    setObjects(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
+    setObjects(
+      res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
+    );
   };
   useEffect(() => {
     getTotalItems();
@@ -49,7 +52,7 @@ const Dashboard = () => {
                   title={item.embeddedRecord.title}
                   desc={item.embeddedRecord.desc}
                   state={item.cls}
-                  videoId={""}
+                  videoId={item.id}
                   height={115}
                   thumbnail={null}
                 />
@@ -142,7 +145,6 @@ const Dashboard = () => {
                         <Paper
                           variant="outlined"
                           sx={{
-                            height: 825,
                             p: 2,
                             margin: "auto",
                             flexGrow: 1,
@@ -167,15 +169,34 @@ const Dashboard = () => {
                               >
                                 Objects
                               </Typography>
-                              {renderObjects()}
-                              <Bottom
-                                count={objPageNumbers}
-                                currentPage={currentObjPage}
-                                handleChange={handleObjPageChange}
-                                redirect="/"
-                                canUpload={false}
-                              />
-                              <Button fullWidth href="/sp-upload-file" variant="contained" sx={{mt:2}}>Create New Object</Button>
+                              {objects.length !== 0 ? (
+                                <>
+                                  {renderObjects()}
+                                  <Bottom
+                                    count={objPageNumbers}
+                                    currentPage={currentObjPage}
+                                    handleChange={handleObjPageChange}
+                                    redirect="/"
+                                    canUpload={false}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <VideoInfo
+                                    title="There are no objects created"
+                                    desc="Try creating the very first object!"
+                                  />
+                                </>
+                              )}
+
+                              <Button
+                                fullWidth
+                                href="/sp-upload-object"
+                                variant="contained"
+                                sx={{ mt: 2 }}
+                              >
+                                Create New Object
+                              </Button>
                             </Grid>
                           </Grid>
                         </Paper>
@@ -184,7 +205,6 @@ const Dashboard = () => {
                         <Paper
                           variant="outlined"
                           sx={{
-                            height: 825,
                             p: 2,
                             margin: "auto",
                             flexGrow: 1,
@@ -209,15 +229,34 @@ const Dashboard = () => {
                               >
                                 Functions
                               </Typography>
-                              {renderFunctions()}
-                              <Bottom
-                                count={funcPageNumbers}
-                                currentPage={currentFuncPage}
-                                handleChange={handleFuncPageChange}
-                                redirect="/"
-                                canUpload={false}
-                              />
-                              <Button fullWidth href="/sp-upload-function" variant="contained" sx={{mt:2}}>Create New Function</Button>
+                              {functions.length !== 0 ? (
+                                <>
+                                  {renderFunctions()}
+                                  <Bottom
+                                    count={funcPageNumbers}
+                                    currentPage={currentFuncPage}
+                                    handleChange={handleFuncPageChange}
+                                    redirect="/"
+                                    canUpload={false}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <VideoInfo
+                                    title="There are no functions created"
+                                    desc="Try creating the very first function!"
+                                  />
+                                </>
+                              )}
+
+                              <Button
+                                fullWidth
+                                href="/sp-upload-function"
+                                variant="contained"
+                                sx={{ mt: 2 }}
+                              >
+                                Create New Function
+                              </Button>
                             </Grid>
                           </Grid>
                         </Paper>

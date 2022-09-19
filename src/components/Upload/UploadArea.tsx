@@ -28,6 +28,7 @@ const UploadArea: React.FC<{
         <Dropzone
           accept={props.acceptType}
           onDrop={(acceptedFiles) => {
+            //console.log(acceptedFiles)
             props.setFileName(acceptedFiles[0].name);
             props.setFile(acceptedFiles[0]);
           }}

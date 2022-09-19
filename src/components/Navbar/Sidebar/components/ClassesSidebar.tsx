@@ -1,7 +1,11 @@
 import { Paper, Grid, Button, Typography } from "@mui/material";
 import React from "react";
 
-const ClassesSidebar: React.FC<{name: string|undefined; redirect: string; url: string|undefined}> = (props) => {
+const ClassesSidebar: React.FC<{
+  name: string | undefined;
+  redirect: string;
+  url: string | undefined;
+}> = (props) => {
   return (
     <>
       <Paper

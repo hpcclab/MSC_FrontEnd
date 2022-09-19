@@ -52,6 +52,7 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
               <Typography variant="h4">Dashboard</Typography>
             </Button>
           </Paper>
+          
           <Paper variant="outlined">
             <Button
               href="/sp-function-list"

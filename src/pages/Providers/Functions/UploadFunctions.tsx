@@ -40,18 +40,52 @@ const UploadFunctions = () => {
   const handleDescChange = (e: any) => {
     setDesc(e.target.value);
   };
+
+  var inputsJSON: any = [];
+  var varsJSON: any = [];
   const handleCreateFunc = () => {
-    console.log({
-      functions: [
-        {
-          access: "PUBLIC",
-          defaultArgs: {},
-          forwardRecords: [],
-          function: name,
-          name: name,
+    inputsJSON = refs.map((element) => ({ cls: element[1], labels: [] }));
+    varsJSON = vars.map((element: any) => ({ name: element }));
+    //console.log(varsJSON);
+
+    //console.log(inputsJSON)
+    axios.post((window as any).ENV.OC_API + "api/functions", [{
+      description: desc,
+      name: name,
+      outputCls: chosenClass,
+      provision: {
+        knative: {
+          env: {},
+          image: dockerURL,
         },
-      ],
-    });
+        type: "DURABLE",
+      },
+      type: "TASK",
+      validation: {
+        bindingRequirement: {},
+        inputs: inputsJSON,
+      },
+      variableDescriptions: varsJSON,
+    }]);
+
+    // console.log({
+    //   description: desc,
+    //   name: name,
+    //   outputCls: chosenClass,
+    //   provision: {
+    //     knative: {
+    //       env: {},
+    //       image: dockerURL,
+    //     },
+    //     type: "DURABLE",
+    //   },
+    //   type: "TASK",
+    //   validation: {
+    //     bindingRequirement: {},
+    //     inputs: inputsJSON,
+    //   },
+    //   variableDescriptions: varsJSON,
+    // });
   };
 
   const [vars, setVars] = useState<any>([""]);
@@ -173,27 +207,30 @@ const UploadFunctions = () => {
             <>
               <Grid container spacing={2} sx={{ mt: 1 }}>
                 <Grid item xs={12} sm container>
+                  <Grid item>
+                    <Typography variant="h3">{index + 1}</Typography>
+                  </Grid>
                   <Grid item xs container direction="column" spacing={2}>
                     <Grid item xs>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            Class
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={item[1]}
-                            label="Class Name"
-                            onClick={() => {
-                              changeRefType(index, "object");
-                            }}
-                            onChange={(event) => {
-                              changeRefValue(index, event.target.value);
-                            }}
-                          >
-                            {renderClassSelection}
-                          </Select>
-                        </FormControl>
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">
+                          Class
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={item[1]}
+                          label="Class Name"
+                          onClick={() => {
+                            changeRefType(index, "object");
+                          }}
+                          onChange={(event) => {
+                            changeRefValue(index, event.target.value);
+                          }}
+                        >
+                          {renderClassSelection}
+                        </Select>
+                      </FormControl>
                     </Grid>
                   </Grid>
                   <Grid item>
@@ -243,6 +280,22 @@ const UploadFunctions = () => {
   const renderOaaSFunctions = oaasFunctions.map((item: any) => (
     <MenuItem value={item.name}>{item.name}</MenuItem>
   ));
+  const [classes, setClasses] = useState([]);
+  const getClasses = async () => {
+    const res = await axios.get(
+      (window as any).ENV.OC_API + "api/classes?limit=1337"
+    );
+    setClasses(res.data.items);
+  };
+  useEffect(() => {
+    getClasses();
+  }, [5]);
+
+  const [chosenClass, setChosenClass] = useState("");
+
+  const classSelection = classes.map((item: any) => (
+    <MenuItem value={item.name}>{item.name}</MenuItem>
+  ));
 
   const renderFunctions = () => {
     return (
@@ -265,105 +318,13 @@ const UploadFunctions = () => {
                     <Grid item xs>
                       <Grid item xs={12} sm container>
                         <Grid item xs>
-                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                            Input Point Name
-                          </Typography>
                           <TextField
                             fullWidth
                             id="outlined-textarea"
-                            label="Input Input Name"
-                            placeholder="Fill"
+                            //label={props.label}
+                            //placeholder={props.label}
                             multiline
-                            onChange={(e) => {
-                              changeFunction(index, 1, e.target.value);
-                            }}
-                          />
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              Function Name
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={item[0]}
-                              label="Function"
-                              onChange={(event) => {
-                                changeFunction(index, 0, event.target.value);
-                              }}
-                            >
-                              {renderOaaSFunctions}
-                            </Select>
-                          </FormControl>
-                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                            Input Variables
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            id="outlined-textarea"
-                            label="Input Variable Name"
-                            placeholder="Fill"
-                            multiline
-                            onChange={(e) => {
-                              changeFunction(index, 1, e.target.value);
-                            }}
-                          />
-                          <TextField
-                            fullWidth
-                            id="outlined-textarea"
-                            label="Input Variable Name"
-                            placeholder="Fill"
-                            multiline
-                            onChange={(e) => {
-                              changeFunction(index, 2, e.target.value);
-                            }}
-                          />
-                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                            Input References
-                          </Typography>
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              File
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={item[0]}
-                              label="File Name"
-                              onChange={(event) => {
-                                changeFunction(index, 3, event.target.value);
-                              }}
-                            >
-                              {renderOaaSFunctions}
-                            </Select>
-                          </FormControl>
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              Object
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={item[4]}
-                              label="Object Name"
-                              onChange={(event) => {
-                                changeFunction(index, 4, event.target.value);
-                              }}
-                            >
-                              {renderOaaSFunctions}
-                            </Select>
-                          </FormControl>
-                          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                            Output Point Name
-                          </Typography>
-                          <TextField
-                            fullWidth
-                            id="outlined-textarea"
-                            label="Input Output Name"
-                            placeholder="Fill"
-                            multiline
-                            onChange={(e) => {
-                              changeFunction(index, 1, e.target.value);
-                            }}
+                            //onChange={props.handleInput}
                           />
                         </Grid>
                       </Grid>
@@ -400,7 +361,7 @@ const UploadFunctions = () => {
           >
             <Container maxWidth="xl" sx={{ mt: 12, mb: 4 }}>
               <Grid container spacing={3}>
-                <UploadTitle title="Upload Function" />
+                <UploadTitle title="Create Function" />
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
                   <Grid sx={{ mt: 2 }}>
@@ -501,7 +462,7 @@ const UploadFunctions = () => {
                                 >
                                   <Grid item xs>
                                     <Typography variant="h3">
-                                      Input References
+                                      Input Objects
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -562,6 +523,7 @@ const UploadFunctions = () => {
                                     />
                                     <FormControlLabel
                                       value="dataFlow"
+                                      disabled
                                       control={<Radio />}
                                       label={
                                         <>
@@ -600,13 +562,55 @@ const UploadFunctions = () => {
                         />
                       )}
                       {executionType === "dataFlow" && <>{renderFunctions()}</>}
-
+                      {/** Class Selection */}
+                      <Grid item xs={12}>
+                        <Paper
+                          variant="outlined"
+                          sx={{
+                            p: 2,
+                            margin: "auto",
+                            flexGrow: 1,
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === "dark"
+                                ? "#1A2027"
+                                : "#fff",
+                          }}
+                        >
+                          <Grid
+                            item
+                            xs
+                            container
+                            direction="column"
+                            spacing={2}
+                          >
+                            <Grid item xs>
+                              <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                  Default Class Name
+                                </InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={chosenClass}
+                                  label="Class"
+                                  onChange={(event) => {
+                                    setChosenClass(event.target.value);
+                                  }}
+                                >
+                                  {classSelection}
+                                </Select>
+                              </FormControl>
+                            </Grid>
+                          </Grid>
+                        </Paper>
+                      </Grid>
+                      {/** End Class Selection */}
                       <BackCreate
                         handleSubmit={handleCreateFunc}
                         backDisabled={false}
                         submitDisabled={false}
                         submitTitle="Create Function"
-                        goBackTo="/sp-file-list"
+                        goBackTo="/sp-function-list"
                       />
                     </Grid>
                   </Grid>

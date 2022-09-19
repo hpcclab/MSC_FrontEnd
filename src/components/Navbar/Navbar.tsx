@@ -98,7 +98,7 @@ const Navbar: React.FC<{
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Stream Provider
+              Developer
             </Typography>
           </Button>
         </Toolbar>

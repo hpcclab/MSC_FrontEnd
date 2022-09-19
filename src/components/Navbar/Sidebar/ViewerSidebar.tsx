@@ -40,22 +40,26 @@ const ViewerSidebar = () => {
   const [input, setInput] = useState("");
 
   const renderData = () => {
-    return (
-      <>
-        {data.map((video: any) => {
-          if (video.status.taskStatus == "SUCCEEDED") {
-            return (
-              <ViewerVideoItem
-                videoId={video.id}
-                thumbnail={video.embeddedRecord.thumbnail}
-                title={video.embeddedRecord.title}
-                desc={video.embeddedRecord.desc}
-              />
-            );
-          }
-        })}
-      </>
-    );
+    try {
+      return (
+        <>
+          {data.map((video: any) => {
+            if (video.status.taskStatus == "SUCCEEDED") {
+              return (
+                <ViewerVideoItem
+                  videoId={video.id}
+                  thumbnail={video.embeddedRecord.thumbnail}
+                  title={video.embeddedRecord.title}
+                  desc={video.embeddedRecord.desc}
+                />
+              );
+            }
+          })}
+        </>
+      );
+    } catch (error) {
+      console.log(error)
+    }
   };
   return (
     <>
@@ -65,6 +69,7 @@ const ViewerSidebar = () => {
           setInput(e.target.value);
         }}
       ></Input>
+      
       {itemCount !== 0 && (
         <>
         {renderData()}

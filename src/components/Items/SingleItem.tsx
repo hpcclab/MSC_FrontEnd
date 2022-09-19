@@ -1,4 +1,5 @@
 import { Paper, Grid, ButtonBase, Typography, Button } from "@mui/material";
+import axios from "axios";
 import React from "react";
 import Thumbnail from "./components/Thumbnail";
 
@@ -15,7 +16,6 @@ const SingleItem: React.FC<{
       <Paper
         variant="outlined"
         sx={{
-          height: props.height,
           p: 2,
           margin: "auto",
           flexGrow: 1,
@@ -43,22 +43,49 @@ const SingleItem: React.FC<{
                 <Typography noWrap gutterBottom variant="h4" component="div">
                   {props.title}
                 </Typography>
-                <Typography variant="body2" gutterBottom sx={{ height: 70 }}>
+                <Typography variant="body2" gutterBottom sx={{ height: 60 }}>
                   {props.desc}
+                </Typography>
+                <Typography variant="subtitle2" sx={{ height: 5 }}>
+                  {props.videoId}
                 </Typography>
               </Grid>
             </Grid>
 
             <Grid item justifyContent="flex-end">
-                <Button
-                  color="error"
-                  variant="contained"
-                  disableElevation
-                >
-                  <Typography sx={{ cursor: "pointer" }} variant="body2">
-                    Delete
-                  </Typography>
-                </Button>
+              {props.state !== "TASK" && props.state !== "LOGICAL" && (
+                <>
+                  <Button
+                    color="error"
+                    disabled={
+                      (props.title === "example.video" ||
+                        props.title === "example.video.hls" ||
+                        props.title === "builtin.basic.file") &&
+                      props.state === "SIMPLE"
+                    }
+                    variant="contained"
+                    disableElevation
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Do you really want to delete this item?"
+                        )
+                      ) {
+                        if (props.videoId !== '') {
+                          axios.delete((window as any).ENV.OC_API + "api/objects/" + props.videoId).then(function (r) {window.location.reload()})
+                        }
+                        else {
+                          axios.delete((window as any).ENV.OC_API + "api/classes/" + props.title).then(function (r) {window.location.reload()})
+                        }
+                      }
+                    }}
+                  >
+                    <Typography sx={{ cursor: "pointer" }} variant="body2">
+                      Delete
+                    </Typography>
+                  </Button>
+                </>
+              )}
               <Typography variant="h4" sx={{ mt: 1.5 }}>
                 {props.state}
               </Typography>

@@ -7,6 +7,7 @@ import SingleItem from '../../../components/Items/SingleItem';
 import Navbar from '../../../components/Navbar/Navbar';
 import Bottom from '../../../components/Pagination/Bottom';
 import Player from '../../../components/Viewer/Player';
+import VideoInfo from '../../../components/Viewer/VideoInfo';
 
 const ViewFiles = () => {
   const handlePageChange = (e: any, p: any) => {
@@ -66,7 +67,7 @@ const ViewFiles = () => {
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
           {/** Navbar and Sidebar */}
-          <Navbar isViewer={false} section="files" url=""/>
+          <Navbar isViewer={false} section="files" url="builtin.basic.file"/>
           {/** Page Content */}
           <Box
             component="main"
@@ -84,7 +85,7 @@ const ViewFiles = () => {
               <Grid container spacing={3}>
                 <Grid item xs={12} alignItems="center" justifyContent="center">
                   {/** Components go here */}
-                  <Grid sx={{ mt: 8, height: 825 }}>
+                  <Grid sx={{ mt: 8, mb: 5}}>
                     {/** Page contents go here */}
                     {totalItems !== 0 ? (
                       <>
@@ -92,6 +93,10 @@ const ViewFiles = () => {
                       </>
                     ) : (
                     <>
+                    <VideoInfo
+                          title="There are no objects created for this class"
+                          desc="Try creating the very first object!"
+                        />
                     </>)
                     
                     }

@@ -1,4 +1,5 @@
 import { Paper, Grid, ButtonBase, Typography, Button } from "@mui/material";
+import axios from "axios";
 import React from "react";
 import Thumbnail from "./components/Thumbnail";
 
@@ -9,10 +10,12 @@ const FileItem: React.FC<{
   objectId: string;
   height: number;
 }> = (props) => {
-
   const handleDownloadRequest = () => {
     const link = document.createElement("a");
-    link.setAttribute("href", "http://cds.10.131.36.40.nip.io/oal/"+ props.objectId + "/file")
+    link.setAttribute(
+      "href",
+      "http://cds.10.131.36.40.nip.io/oal/" + props.objectId + "/file"
+    );
     link.setAttribute("download", props.title);
     link.setAttribute("target", "_blank");
     link.click();
@@ -23,7 +26,6 @@ const FileItem: React.FC<{
       <Paper
         variant="outlined"
         sx={{
-          height: props.height,
           p: 2,
           margin: "auto",
           flexGrow: 1,
@@ -38,8 +40,11 @@ const FileItem: React.FC<{
                 <Typography gutterBottom variant="h4" component="div">
                   {props.title}
                 </Typography>
-                <Typography variant="body2" gutterBottom sx={{ height: 70 }}>
+                <Typography variant="body1" gutterBottom sx={{ height: 20 }}>
                   {props.desc}
+                </Typography>
+                <Typography variant="subtitle2" sx={{ height: 0 }}>
+                  {props.objectId}
                 </Typography>
               </Grid>
             </Grid>
@@ -61,20 +66,33 @@ const FileItem: React.FC<{
                 </Typography>
               </Button>
               <Grid item>
-              <Button
-                color="error"
-                onClick={handleDownloadRequest}
-                variant="contained"
-                disableElevation
-                sx={{ ml: 3, mt: 1 }}
-              >
-                <Typography sx={{ cursor: "pointer" }} variant="body2">
-                  Delete
-                </Typography>
-              </Button>
+                <Button
+                  color="error"
+                  onClick={() => {
+                    if (
+                      window.confirm("Do you really want to delete this item?")
+                    ) {
+                      axios
+                        .delete(
+                          (window as any).ENV.OC_API +
+                            "api/objects/" +
+                            props.objectId
+                        )
+                        .then(function (r) {
+                          window.location.reload();
+                        });
+                    }
+                  }}
+                  variant="contained"
+                  disableElevation
+                  sx={{ ml: 3, mt: 1 }}
+                >
+                  <Typography sx={{ cursor: "pointer" }} variant="body2">
+                    Delete
+                  </Typography>
+                </Button>
+              </Grid>
             </Grid>
-            </Grid>
-            
           </Grid>
         </Grid>
       </Paper>
