@@ -30,7 +30,9 @@ const ViewerSidebar = () => {
       const res = await axios.get(
         "http://oc.oaas.10.131.36.40.nip.io/api/classes/example.video.hls/objects?limit=10000&offset=0"
       );
-      setData(res.data.items);
+      setData(
+        res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
+      );
       setLoading(false);
       setItemCount(res.data.total);
     };
@@ -58,7 +60,7 @@ const ViewerSidebar = () => {
         </>
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   return (
@@ -69,13 +71,8 @@ const ViewerSidebar = () => {
           setInput(e.target.value);
         }}
       ></Input>
-      
-      {itemCount !== 0 && (
-        <>
-        {renderData()}
-        </>
-      )
-      }
+
+      {itemCount !== 0 && <>{renderData()}</>}
     </>
   );
 };

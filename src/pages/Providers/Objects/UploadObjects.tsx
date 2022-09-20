@@ -311,12 +311,9 @@ const UploadObjects = () => {
       })
       .then(function (response) {
         files.map((element: any, index: number) => {
-          //axios
-          console.log(element)
-          //console.log(element["name"])
-          axios.post(response.data.uploadUrls[keySpecs[index]["name"]], element, {
+          axios.post(response.data.uploadUrls[keySpecs[index]["name"]], element[0], {
             headers: {
-              "Content-Type": element.type,
+              "Content-Type": element[0]["type"],
             },
             onUploadProgress: (prog) => {
               setProgress(Math.round((prog.loaded / prog.total) * 100));

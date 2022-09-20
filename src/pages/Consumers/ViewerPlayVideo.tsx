@@ -64,6 +64,29 @@ const ViewerPlayVideo = () => {
     );
     setFiles(res.data.items);
   };
+
+  var inputVars: string[] = [];
+  var inputObjs: string[] = [];
+
+  const [chosenFunc, setChosenFunc] = useState("");
+  const [funcVars, setFuncVars] = useState<any>([]);
+  const [funcObj, setFuncObj] = useState<any>([]);
+  const getFunctionInfo = async () => {
+    const res = await axios.get(
+      (window as any).ENV.OC_API + "api/functions/" + chosenFunc
+    );
+    setFuncVars(res.data.variableDescriptions);
+    setFuncObj(res.data.validation.inputs);
+    inputVars = res.data.variableDescriptions.map((element: any) => "");
+    inputObjs = res.data.validation.inputs.map((element: any) => "");
+  };
+
+  useEffect(() => {
+    if (chosenFunc !== "") {
+      console.log(chosenFunc);
+    }
+  }, [chosenFunc]);
+
   const [objects, setObjects] = useState<any>([]);
   const getObjects = async () => {
     const res = await axios.get(
@@ -99,10 +122,76 @@ const ViewerPlayVideo = () => {
     setFunctions([...functions]);
   };
 
+  const renderInputVariables = () => {
+    return (
+      <>
+        {funcVars.map((item: any, index: number) => {
+          return (
+            <>
+              <TextField
+                fullWidth
+                id="outlined-textarea"
+                label="Input Variable Name"
+                placeholder="Fill"
+                multiline
+                onChange={(e) => {
+                  inputVars[index] = e.target.value;
+                }}
+              />
+            </>
+          );
+        })}
+      </>
+    );
+  };
+  const renderInputObjects = async (className: string, index: number) => {
+    const res = await axios.get(
+      (window as any).ENV.OC_API +
+        "api/classes/" +
+        className +
+        "/objects?limit=1337"
+    );
+    var items = res.data.items.filter(
+      (item: any) => item.embeddedRecord !== undefined
+    );
+    const renderObjSelection = items.map((item: any) => (
+      <MenuItem value={item.id}>
+        {item.id} - {item.embeddedRecord.title}
+      </MenuItem>
+    ));
+
+    return (
+      <>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">File</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={inputObjs[index] as string}
+            label="File Name"
+            onChange={(event) => {
+              inputObjs[index] = event.target.value;
+            }}
+          >
+            {renderObjSelection}
+          </Select>
+        </FormControl>
+      </>
+    );
+  };
+
   const renderFunctions = () => {
     try {
       const renderOaaSFunctions = oaasFunctions.map((item: any) => (
-        <MenuItem value={item.name}>{item.name}</MenuItem>
+        <MenuItem
+          value={item.name}
+          onClick={() => {
+            console.log(item);
+            setChosenFunc(item.function);
+          }}
+        >
+          {item.name}
+        </MenuItem>
       ));
       const renderFiles = files.map((item: any) => (
         <MenuItem value={item.id}>
@@ -153,61 +242,18 @@ const ViewerPlayVideo = () => {
                           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
                             Input Variables
                           </Typography>
-                          <TextField
-                            fullWidth
-                            id="outlined-textarea"
-                            label="Input Variable Name"
-                            placeholder="Fill"
-                            multiline
-                            onChange={(e) => {
-                              changeFunction(index, 1, e.target.value);
-                            }}
-                          />
-                          <TextField
-                            fullWidth
-                            id="outlined-textarea"
-                            label="Input Variable Name"
-                            placeholder="Fill"
-                            multiline
-                            onChange={(e) => {
-                              changeFunction(index, 2, e.target.value);
-                            }}
-                          />
+                          {renderInputVariables()}
+                          <Divider></Divider>
                           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
                             Input Objects
                           </Typography>
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              File
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={item[3]}
-                              label="File Name"
-                              onChange={(event) => {
-                                changeFunction(index, 3, event.target.value);
-                              }}
-                            >
-                              {renderFiles}
-                            </Select>
-                          </FormControl>
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              Object
-                            </InputLabel>
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={item[4]}
-                              label="Object Name"
-                              onChange={(event) => {
-                                changeFunction(index, 4, event.target.value);
-                              }}
-                            >
-                              {renderObjects}
-                            </Select>
-                          </FormControl>
+                          {funcObj.map((element: any, index: number) => {
+                            return (
+                              <>
+                              {renderInputObjects(element.cls, index)}
+                              </>
+                            )
+                          })}
                         </Grid>
                       </Grid>
                     </Grid>
@@ -266,7 +312,14 @@ const ViewerPlayVideo = () => {
                         variant="contained"
                         disabled={functions[0][0] === ""}
                         onClick={() => {
-                          axios.get((window as any).ENV.CDS_API + "oal/" + videoId + ":" + functions[0][0] + "()()");
+                          axios.get(
+                            (window as any).ENV.CDS_API +
+                              "oal/" +
+                              videoId +
+                              ":" +
+                              functions[0][0] +
+                              "()()"
+                          );
                         }}
                       >
                         Apply
