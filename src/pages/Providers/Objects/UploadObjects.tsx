@@ -31,7 +31,10 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DropDown from "../../../components/Items/components/DropDown";
 import ObjectReference from "../../../components/Upload/ObjectRefererence";
 import Dropzone from "react-dropzone";
-import { ContentPasteOffSharp, SentimentSatisfiedAltSharp } from "@mui/icons-material";
+import {
+  ContentPasteOffSharp,
+  SentimentSatisfiedAltSharp,
+} from "@mui/icons-material";
 
 const UploadObjects = () => {
   const [fileName, setFileName] = useState("There is no file selected");
@@ -48,7 +51,7 @@ const UploadObjects = () => {
   };
 
   var keyJSON = [];
-  
+
   const [classes, setClasses] = useState([]);
   const getClasses = async () => {
     const res = await axios.get(
@@ -76,10 +79,10 @@ const UploadObjects = () => {
     setKeySpecs(res.data.stateSpec.keySpecs);
     try {
       //console.log(5)
-      files = res.data.stateSpec.keySpecs.map((element: any) => File)
-      console.log(files, 1)
+      files = res.data.stateSpec.keySpecs.map((element: any) => File);
+      console.log(files, 1);
     } catch {
-      files = []
+      files = [];
     }
     try {
       var temp = res.data.refSpec.map((element: any) => [
@@ -160,23 +163,19 @@ const UploadObjects = () => {
       </>
     );
   };
-  
+
   const handleFileDrop = (index: number, file: any) => {
     //console.log(files[index], 1)
     //console.log(files[index])
     files[index] = file;
-    console.log(files)
+    console.log(files);
     //console.log(files, 5)
     //console.log(files[index], 2)
-  }
-
+  };
 
   const renderKeySpecs = () => {
     try {
-
-    } catch {
-      
-    }
+    } catch {}
     return (
       <>
         {keySpecs.map((item: any, index: number) => {
@@ -198,7 +197,7 @@ const UploadObjects = () => {
                 </Paper>
                 <Dropzone
                   onDrop={(acceptedFiles) => {
-                    handleFileDrop(index, acceptedFiles)
+                    handleFileDrop(index, acceptedFiles);
                   }}
                 >
                   {({ getRootProps, getInputProps }) => (
@@ -232,7 +231,9 @@ const UploadObjects = () => {
                       theme.palette.mode === "dark" ? "#1A2027" : "#fff",
                   }}
                 >
-                  {files[index] !== undefined && <Typography>{files[index].name}</Typography>}
+                  {files[index] !== undefined && (
+                    <Typography>{files[index].name}</Typography>
+                  )}
                 </Paper>
               </Grid>
             </>
@@ -298,10 +299,10 @@ const UploadObjects = () => {
     //console.log(objRefs);
     setProgress(0);
     //console.log(keySpecs, 69)
-    keyJSON = keySpecs.map((element:any) => (element.name))
+    keyJSON = keySpecs.map((element: any) => element.name);
 
-
-    axios.post((window as any).ENV.OC_API + "api/object-construct", {
+    axios
+      .post((window as any).ENV.OC_API + "api/object-construct", {
         cls: chosenClass,
         embeddedRecord: {
           title: name,
@@ -310,16 +311,25 @@ const UploadObjects = () => {
         keys: keyJSON,
       })
       .then(function (response) {
-        files.map((element: any, index: number) => {
-          axios.post(response.data.uploadUrls[keySpecs[index]["name"]], element[0], {
-            headers: {
-              "Content-Type": element[0]["type"],
-            },
-            onUploadProgress: (prog) => {
-              setProgress(Math.round((prog.loaded / prog.total) * 100));
-            },
+        files.map(async (element: any, index: number) => {
+          const test = await axios.post(
+            response.data.uploadUrls[keySpecs[index]["name"]],
+            element[0],
+            {
+              headers: {
+                "Content-Type": element[0]["type"],
+              },
+              onUploadProgress: (prog) => {
+                setProgress(Math.round((prog.loaded / prog.total) * 100));
+              },
+            }
+          ).then( function (r) {
+            alert("The object has been successfully created.")
           })
-        })
+          .catch( function (err) {
+            console.log(err);
+          });
+        });
       });
   };
   return (

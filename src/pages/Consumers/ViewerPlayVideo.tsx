@@ -319,7 +319,9 @@ const ViewerPlayVideo = () => {
                               ":" +
                               functions[0][0] +
                               "()()"
-                          );
+                          ).then(function (r) {
+                            alert("The function has been applied.")
+                          });
                         }}
                       >
                         Apply

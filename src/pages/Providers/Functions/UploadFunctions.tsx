@@ -66,7 +66,9 @@ const UploadFunctions = () => {
         inputs: inputsJSON,
       },
       variableDescriptions: varsJSON,
-    }]);
+    }]).then(function (r) {
+      alert("The function has been successfully created.")
+    });
 
     // console.log({
     //   description: desc,

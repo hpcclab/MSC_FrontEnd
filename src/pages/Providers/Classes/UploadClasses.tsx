@@ -200,6 +200,8 @@ const UploadClasses = () => {
         keySpecs: keySpecsJSON,
       },
       stateType: "FILES",
+    }).then(function (r) {
+      alert("The class has been successfully created.")
     })
     // console.log({
     //   description: desc,
