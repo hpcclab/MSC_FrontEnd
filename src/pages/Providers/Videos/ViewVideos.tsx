@@ -20,7 +20,7 @@ const VVideos = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/classes/example.video.hls/objects?limit=" +
+      (window as any).ENV.OC_API + "/api/classes/example.video.hls/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -103,6 +103,7 @@ const VVideos = () => {
                     handleChange={handlePageChange}
                     redirect="/sp-upload-video"
                     canUpload={true}
+                    type="Video Object"
                   />
                   {/** End Components go here */}
                 </Grid>

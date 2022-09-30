@@ -20,7 +20,7 @@ const ViewObjects = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=" +
+      (window as any).ENV.OC_API + "/api/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -102,6 +102,7 @@ const ViewObjects = () => {
                     handleChange={handlePageChange}
                     redirect="/sp-upload-object"
                     canUpload={true}
+                    type="Object"
                   />
                   {/** End Components go here */}
                 </Grid>

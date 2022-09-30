@@ -55,7 +55,7 @@ const UploadObjects = () => {
   const [classes, setClasses] = useState([]);
   const getClasses = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/classes?limit=1337"
+      (window as any).ENV.OC_API + "/api/classes?limit=1337"
     );
     setClasses(res.data.items);
   };
@@ -74,7 +74,7 @@ const UploadObjects = () => {
   const [refSpecs, setRefSpecs] = useState([]);
   const getClassInfo = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/classes/" + chosenClass
+      (window as any).ENV.OC_API + "/api/classes/" + chosenClass
     );
     setKeySpecs(res.data.stateSpec.keySpecs);
     try {
@@ -251,7 +251,7 @@ const UploadObjects = () => {
   const [objects, setObjects] = useState<any>([]);
   const getObjects = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/objects?limit=1337"
+      (window as any).ENV.OC_API + "/api/objects?limit=1337"
     );
     setObjects(
       res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
@@ -302,7 +302,7 @@ const UploadObjects = () => {
     keyJSON = keySpecs.map((element: any) => element.name);
 
     axios
-      .post((window as any).ENV.OC_API + "api/object-construct", {
+      .post((window as any).ENV.OC_API + "/api/object-construct", {
         cls: chosenClass,
         embeddedRecord: {
           title: name,

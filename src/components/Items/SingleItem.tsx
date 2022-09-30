@@ -72,10 +72,10 @@ const SingleItem: React.FC<{
                         )
                       ) {
                         if (props.videoId !== '') {
-                          axios.delete((window as any).ENV.OC_API + "api/objects/" + props.videoId).then(function (r) {window.location.reload()})
+                          axios.delete((window as any).ENV.OC_API + "/api/objects/" + props.videoId).then(function (r) {window.location.reload()})
                         }
                         else {
-                          axios.delete((window as any).ENV.OC_API + "api/classes/" + props.title).then(function (r) {window.location.reload()})
+                          axios.delete((window as any).ENV.OC_API + "/api/classes/" + props.title).then(function (r) {window.location.reload()})
                         }
                       }
                     }}

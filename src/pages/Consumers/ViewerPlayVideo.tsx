@@ -36,7 +36,7 @@ const ViewerPlayVideo = () => {
   const [objClass, setObjClass] = useState("");
   const getVideoInfo = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/objects/" + videoId
+      (window as any).ENV.OC_API + "/api/objects/" + videoId
     );
     setVideoData(res.data);
     setTaskStatus(res.data.status.taskStatus);
@@ -49,7 +49,7 @@ const ViewerPlayVideo = () => {
 
   const getFunctions = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/classes/" + objClass
+      (window as any).ENV.OC_API + "/api/classes/" + objClass
     );
     //console.log(5)
     //console.log(res);
@@ -60,7 +60,7 @@ const ViewerPlayVideo = () => {
   const getFileObjs = async () => {
     const res = await axios.get(
       (window as any).ENV.OC_API +
-        "api/classes/builtin.basic.file/objects?limit=1337"
+        "/api/classes/builtin.basic.file/objects?limit=1337"
     );
     setFiles(res.data.items);
   };
@@ -73,7 +73,7 @@ const ViewerPlayVideo = () => {
   const [funcObj, setFuncObj] = useState<any>([]);
   const getFunctionInfo = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/functions/" + chosenFunc
+      (window as any).ENV.OC_API + "/api/functions/" + chosenFunc
     );
     setFuncVars(res.data.variableDescriptions);
     setFuncObj(res.data.validation.inputs);
@@ -90,7 +90,7 @@ const ViewerPlayVideo = () => {
   const [objects, setObjects] = useState<any>([]);
   const getObjects = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/objects?limit=1337"
+      (window as any).ENV.OC_API + "/api/objects?limit=1337"
     );
     setObjects(
       res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
@@ -147,7 +147,7 @@ const ViewerPlayVideo = () => {
   const renderInputObjects = async (className: string, index: number) => {
     const res = await axios.get(
       (window as any).ENV.OC_API +
-        "api/classes/" +
+        "/api/classes/" +
         className +
         "/objects?limit=1337"
     );
@@ -314,13 +314,13 @@ const ViewerPlayVideo = () => {
                         onClick={() => {
                           axios.get(
                             (window as any).ENV.CDS_API +
-                              "oal/" +
+                              "/oal/" +
                               videoId +
                               ":" +
                               functions[0][0] +
                               "()()"
                           ).then(function (r) {
-                            alert("The function has been applied.")
+                            alert("The function has been applied. It may take a while for the videos list to be updated after refreshing.")
                           });
                         }}
                       >

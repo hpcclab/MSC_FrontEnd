@@ -12,7 +12,7 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes?limit=10000&offset=0"
+      (window as any).ENV.OC_API + "/api/classes?limit=10000&offset=0"
     );
     setData(res.data.items.filter((item: any) => item.name !== "example.video.hls" && item.name !== "builtin.basic.file"));
   };

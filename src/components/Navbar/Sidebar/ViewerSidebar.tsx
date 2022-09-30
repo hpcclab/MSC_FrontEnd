@@ -28,7 +28,8 @@ const ViewerSidebar = () => {
     const fetchPosts = async () => {
       setLoading(true);
       const res = await axios.get(
-        "http://oc.oaas.10.131.36.40.nip.io/api/classes/example.video.hls/objects?limit=10000&offset=0"
+        (window as any).ENV.OC_API +
+          "/api/classes/example.video.hls/objects?limit=10000&offset=0"
       );
       setData(
         res.data.items.filter((item: any) => item.embeddedRecord !== undefined)

@@ -24,7 +24,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Navbar from "../../../components/Navbar/Navbar";
 import Player from "../../../components/Viewer/Player";
-import OaaS from "../../../APIs/OaaSAPI";
 import UploadTitle from "../../../components/Upload/UploadTitle";
 import BackCreate from "../../../components/Upload/BackCreate";
 import InputBox from "../../../components/Upload/InputBox";
@@ -47,7 +46,7 @@ const UploadClasses = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=" +
+      (window as any).ENV.OC_API + "/api/functions?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -147,7 +146,7 @@ const UploadClasses = () => {
   const [classList, setClassList] = useState([])
 
   const getClassList = async () => {
-    const res = await axios.get((window as any).ENV.OC_API + "api/classes")
+    const res = await axios.get((window as any).ENV.OC_API + "/api/classes")
     setClassList(res.data.items)
   }
 
@@ -188,7 +187,7 @@ const UploadClasses = () => {
 
 
     //console.log(functionsJSON);
-    axios.post((window as any).ENV.OC_API + "api/classes", {
+    axios.post((window as any).ENV.OC_API + "/api/classes", {
       description: desc,
       functions: functionsJSON,
       name: name,

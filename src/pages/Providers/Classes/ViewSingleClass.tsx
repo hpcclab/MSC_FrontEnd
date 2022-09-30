@@ -27,7 +27,7 @@ const ViewSingleClass = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes/" +
+      (window as any).ENV.OC_API + "/api/classes/" +
         className +
         "/objects?limit=" +
         itemCount +
@@ -109,6 +109,7 @@ const ViewSingleClass = () => {
                     handleChange={handlePageChange}
                     redirect="/sp-upload-object"
                     canUpload={true}
+                    type="Object"
                   />
                   {/** End Components go here */}
                 </Grid>

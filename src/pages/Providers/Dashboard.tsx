@@ -178,6 +178,7 @@ const Dashboard = () => {
                                     handleChange={handleObjPageChange}
                                     redirect="/"
                                     canUpload={false}
+                                    type=""
                                   />
                                 </>
                               ) : (
@@ -238,6 +239,7 @@ const Dashboard = () => {
                                     handleChange={handleFuncPageChange}
                                     redirect="/"
                                     canUpload={false}
+                                    type=""
                                   />
                                 </>
                               ) : (

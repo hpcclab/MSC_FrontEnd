@@ -85,7 +85,7 @@ const UploadVideos = () => {
   const handleUploadThumbnail = async () => {
     setProgress(0);
     await axios
-      .post((window as any).ENV.OC_API + "api/object-construct", {
+      .post((window as any).ENV.OC_API + "/api/object-construct", {
         cls: "builtin.basic.file",
         embeddedRecord: {
           title: name + " thumbnail",
@@ -117,7 +117,7 @@ const UploadVideos = () => {
     setProgress(0);
     //console.log(thumbnailURL, 69);
     await axios
-      .post((window as any).ENV.OC_API + "api/object-construct", {
+      .post((window as any).ENV.OC_API + "/api/object-construct", {
         cls: "example.video",
         embeddedRecord: {
           title: name,
@@ -140,7 +140,7 @@ const UploadVideos = () => {
           .then(function (res) {
             axios
               .get(
-                (window as any).ENV.CDS_API + "oal/" +
+                (window as any).ENV.CDS_API + "/oal/" +
                   response.data.object.id +
                   ":tohls()()"
               )
@@ -163,7 +163,7 @@ const UploadVideos = () => {
   const [choosableFiles, setChooseableFiles] = useState<any>([]);
   const getChoosableFiles = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes/builtin.basic.file/objects?limit=100000&offset=0"
+      (window as any).ENV.OC_API + "/api/classes/builtin.basic.file/objects?limit=100000&offset=0"
     );
     setChooseableFiles(
       res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
@@ -173,7 +173,7 @@ const UploadVideos = () => {
   const [choosableObj, setChooseableObj] = useState<any>([]);
   const getChoosableObj = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/objects?limit=100000&offset=0"
+      (window as any).ENV.OC_API + "/api/objects?limit=100000&offset=0"
     );
     //res.data.items.splice(2, 3);
     setChooseableObj(

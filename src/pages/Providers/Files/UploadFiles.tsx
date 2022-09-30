@@ -24,7 +24,7 @@ const UploadFiles = () => {
   };
   const handleUploadFile = () => {
     setProgress(0)
-    axios.post((window as any).ENV.OC_API + 'api/object-construct', {
+    axios.post((window as any).ENV.OC_API + '/api/object-construct', {
       cls: "builtin.basic.file",
       embeddedRecord: {
         title: name,

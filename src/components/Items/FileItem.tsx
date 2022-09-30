@@ -14,7 +14,7 @@ const FileItem: React.FC<{
     const link = document.createElement("a");
     link.setAttribute(
       "href",
-      "http://cds.10.131.36.40.nip.io/oal/" + props.objectId + "/file"
+      (window as any).ENV.CDS_API + "/" + props.objectId + "/file"
     );
     link.setAttribute("download", props.title);
     link.setAttribute("target", "_blank");
@@ -75,7 +75,7 @@ const FileItem: React.FC<{
                       axios
                         .delete(
                           (window as any).ENV.OC_API +
-                            "api/objects/" +
+                            "/api/objects/" +
                             props.objectId
                         )
                         .then(function (r) {

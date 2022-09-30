@@ -11,7 +11,7 @@ const ObjectReference: React.FC<{
   const [objects, setObjects] = useState<any>([]);
   const getObjects = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/classes/"+ props.className +"/objects?limit=1337"
+      (window as any).ENV.OC_API + "/api/classes/"+ props.className +"/objects?limit=1337"
     );
     setObjects(
       res.data.items.filter((item: any) => item.embeddedRecord !== undefined)

@@ -11,6 +11,7 @@ const Bottom: React.FC<{
   handleChange: (e: any, p: any) => void;
   redirect: string;
   canUpload: boolean;
+  type: string;
 }> = (props) => {
   return (
     <>
@@ -21,7 +22,7 @@ const Bottom: React.FC<{
             currentPage={props.currentPage}
             handleChange={props.handleChange}
           />
-          {props.canUpload && <UploadButton redirect={props.redirect} />}
+          {props.canUpload && <Button variant="contained" href={props.redirect}> Add new {props.type}</Button>}
         </Grid>
       </Grid>
     </>

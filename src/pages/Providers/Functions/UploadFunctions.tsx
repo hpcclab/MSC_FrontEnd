@@ -49,7 +49,7 @@ const UploadFunctions = () => {
     //console.log(varsJSON);
 
     //console.log(inputsJSON)
-    axios.post((window as any).ENV.OC_API + "api/functions", [{
+    axios.post((window as any).ENV.OC_API + "/api/functions", [{
       description: desc,
       name: name,
       outputCls: chosenClass,
@@ -184,7 +184,7 @@ const UploadFunctions = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes?limit=" +
+      (window as any).ENV.OC_API + "/api/classes?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -258,7 +258,7 @@ const UploadFunctions = () => {
   const [videoId, setVideoId] = useState("");
   const getFunctions = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=10000&offset=0"
+      (window as any).ENV.OC_API + "/api/functions?limit=10000&offset=0"
     );
     setOaaSFunctions(res.data.items);
   };
@@ -285,7 +285,7 @@ const UploadFunctions = () => {
   const [classes, setClasses] = useState([]);
   const getClasses = async () => {
     const res = await axios.get(
-      (window as any).ENV.OC_API + "api/classes?limit=1337"
+      (window as any).ENV.OC_API + "/api/classes?limit=1337"
     );
     setClasses(res.data.items);
   };
@@ -521,7 +521,7 @@ const UploadFunctions = () => {
                                     <FormControlLabel
                                       value="single"
                                       control={<Radio />}
-                                      label="Single"
+                                      label="Task"
                                     />
                                     <FormControlLabel
                                       value="dataFlow"
@@ -588,7 +588,7 @@ const UploadFunctions = () => {
                             <Grid item xs>
                               <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
-                                  Default Class Name
+                                  Output Class Name
                                 </InputLabel>
                                 <Select
                                   labelId="demo-simple-select-label"

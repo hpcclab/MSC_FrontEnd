@@ -20,7 +20,7 @@ const ViewFunctions = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/functions?limit=" +
+      (window as any).ENV.OC_API + "/api/functions?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -94,6 +94,7 @@ const ViewFunctions = () => {
                     handleChange={handlePageChange}
                     redirect="/sp-upload-function"
                     canUpload={true}
+                    type="Function"
                   />
                   {/** End Components go here */}
                 </Grid>

@@ -21,7 +21,7 @@ const ViewFiles = () => {
   const [data, setData] = useState<any>([]);
   const getTotalItems = async () => {
     const res = await axios.get(
-      "http://oc.oaas.10.131.36.40.nip.io/api/classes/builtin.basic.file/objects?limit=" +
+      (window as any).ENV.OC_API + "/api/classes/builtin.basic.file/objects?limit=" +
         itemCount +
         "&offset=" +
         (currentPage - 1) * itemCount
@@ -108,6 +108,7 @@ const ViewFiles = () => {
                     handleChange={handlePageChange}
                     redirect="/sp-upload-file"
                     canUpload={true}
+                    type="File Object"
                   />
                   {/** End Components go here */}
                 </Grid>
