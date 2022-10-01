@@ -39,9 +39,13 @@ import {
 const UploadObjects = () => {
   const [fileName, setFileName] = useState("There is no file selected");
   const [desc, setDesc] = useState("");
-  var files: File[] = [];
+  var files: any = [];
   const [name, setName] = useState("");
   const [progress, setProgress] = useState(0);
+  const [file, setFile] = useState<any>();
+  var keySpecType: string = "";
+  const [canUpload, setCanUpload] = useState(false);
+  const [array, setArray] = useState<any>([]);
 
   const handleNameChange = (e: any) => {
     setName(e.target.value);
@@ -84,6 +88,7 @@ const UploadObjects = () => {
     } catch {
       files = [];
     }
+    setArray([...files]);
     try {
       var temp = res.data.refSpec.map((element: any) => [
         element.name,
@@ -167,8 +172,9 @@ const UploadObjects = () => {
   const handleFileDrop = (index: number, file: any) => {
     //console.log(files[index], 1)
     //console.log(files[index])
-    files[index] = file;
-    console.log(files);
+    array[index] = file[0];
+    setArray([...array]);
+    console.log(array);
     //console.log(files, 5)
     //console.log(files[index], 2)
   };
@@ -231,8 +237,8 @@ const UploadObjects = () => {
                       theme.palette.mode === "dark" ? "#1A2027" : "#fff",
                   }}
                 >
-                  {files[index] !== undefined && (
-                    <Typography>{files[index].name}</Typography>
+                  {array[index] !== undefined && (
+                    <Typography>{array[index]["name"]}</Typography>
                   )}
                 </Paper>
               </Grid>
@@ -271,6 +277,7 @@ const UploadObjects = () => {
     objRefs[index] = value;
     setObjRefs([...objRefs]);
   };
+
   const renderObjRefs = () => {
     return (
       <>
@@ -300,7 +307,7 @@ const UploadObjects = () => {
     setProgress(0);
     //console.log(keySpecs, 69)
     keyJSON = keySpecs.map((element: any) => element.name);
-
+    //console.log(array);
     axios
       .post((window as any).ENV.OC_API + "/api/object-construct", {
         cls: chosenClass,
@@ -310,25 +317,30 @@ const UploadObjects = () => {
         },
         keys: keyJSON,
       })
-      .then(function (response) {
-        files.map(async (element: any, index: number) => {
-          const test = await axios.post(
-            response.data.uploadUrls[keySpecs[index]["name"]],
-            element[0],
-            {
+      .then(async function (response) {
+        await array.map(async (element: any, index: number) => {
+          console.log(response.data.uploadUrls[keySpecs[index]["name"]]);
+          // console.log(keySpecs[index]["name"])
+          // keySpecType = keySpecs[index]["name"];
+          // console.log(keySpecType);
+          var file = element;
+          console.log(element);
+          await axios
+            .put(response.data.uploadUrls[keySpecs[index]["name"]], file, {
               headers: {
-                "Content-Type": element[0]["type"],
+                "Content-Type": file["type"],
+                //"Content-Length": element["size"]
               },
               onUploadProgress: (prog) => {
                 setProgress(Math.round((prog.loaded / prog.total) * 100));
               },
-            }
-          ).then( function (r) {
-            alert("The object has been successfully created.")
-          })
-          .catch( function (err) {
-            console.log(err);
-          });
+            })
+            .then(function (r) {
+              alert("The object has been successfully created.");
+            })
+            .catch(function (err) {
+              console.log(err);
+            });
         });
       });
   };
@@ -506,3 +518,14 @@ const UploadObjects = () => {
 };
 
 export default UploadObjects;
+
+/**
+ * 
+ * <UploadArea
+                        setFileName={setFileName}
+                        setFile={setFile}
+                        fileName={fileName}
+                        title={keySpecType}
+                        acceptType=""
+                      />
+ */
