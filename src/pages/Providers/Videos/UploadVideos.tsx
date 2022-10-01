@@ -95,7 +95,7 @@ const UploadVideos = () => {
       })
       .then(async function (response) {
         thumbnailURL =
-        (window as any).ENV.CDS_API + "oal/" +
+        (window as any).ENV.CDS_API + "/oal/" +
           response.data.object.id +
           "/file";
         await axios
