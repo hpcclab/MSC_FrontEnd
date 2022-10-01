@@ -373,11 +373,13 @@ const UploadFunctions = () => {
                         title="Name"
                         label="Enter Name"
                         handleInput={handleNameChange}
+                        required="*"
                       />
                       <InputBox
                         title="Description"
                         label="Enter Description"
                         handleInput={handleDescChange}
+                        required=""
                       />
 
                       {/** Start Input Variables */}
@@ -510,7 +512,7 @@ const UploadFunctions = () => {
                               <Grid item xs={12} sm container>
                                 <FormControl>
                                   <FormLabel id="demo-controlled-radio-buttons-group">
-                                    Execution
+                                    Execution *
                                   </FormLabel>
                                   <RadioGroup
                                     aria-labelledby="demo-controlled-radio-buttons-group"
@@ -561,6 +563,7 @@ const UploadFunctions = () => {
                           title="Docker Image URL"
                           label="Docker Image URL"
                           handleInput={handleDockerURLChange}
+                          required="*"
                         />
                       )}
                       {executionType === "dataFlow" && <>{renderFunctions()}</>}
@@ -610,7 +613,7 @@ const UploadFunctions = () => {
                       <BackCreate
                         handleSubmit={handleCreateFunc}
                         backDisabled={false}
-                        submitDisabled={false}
+                        submitDisabled={name === "" || dockerURL === ""}
                         submitTitle="Create Function"
                         goBackTo="/sp-function-list"
                       />

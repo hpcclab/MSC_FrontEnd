@@ -376,11 +376,13 @@ const UploadObjects = () => {
                         title="Name"
                         label="Enter Name"
                         handleInput={handleNameChange}
+                        required="*"
                       />
                       <InputBox
                         title="Description"
                         label="Enter Description"
                         handleInput={handleDescChange}
+                        required=""
                       />
                       {/** Class Selection */}
                       <Grid item xs={12}>
@@ -492,7 +494,7 @@ const UploadObjects = () => {
                         handleSubmit={handleUploadFile}
                         backDisabled={progress !== 0 && progress !== 100}
                         submitDisabled={
-                          (progress !== 0 && progress !== 100) || name === ""
+                          (progress !== 0 && progress !== 100) || name === "" || chosenClass === ""
                         }
                         submitTitle="Upload File"
                         goBackTo="/sp-file-list"

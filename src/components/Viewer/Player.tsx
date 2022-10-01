@@ -58,7 +58,7 @@ const Player: React.FC<{videoId: string | undefined}> = (props) => {
           //console.log(2);
           hls.loadSource(
             //src
-            (window as any).ENV.CDS_API + 'oal/'+ props.videoId +'/video.m3u8'
+            (window as any).ENV.CDS_API + '/oal/'+ props.videoId +'/video.m3u8'
             //test
             //"file:../../1/video.m3u8"
           );

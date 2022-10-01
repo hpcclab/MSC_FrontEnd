@@ -296,11 +296,13 @@ const UploadClasses = () => {
                         title="Name"
                         label="Enter Name"
                         handleInput={handleNameChange}
+                        required="*"
                       />
                       <InputBox
                         title="Description"
                         label="Enter Description"
                         handleInput={handleDescChange}
+                        required=""
                       />
                       {/** Start Context Section */}
                       <Grid item xs>
@@ -382,7 +384,7 @@ const UploadClasses = () => {
                         <BackCreate
                           handleSubmit={handleCreateClass}
                           backDisabled={false}
-                          submitDisabled={false}
+                          submitDisabled={name === ""}
                           submitTitle="Create Class"
                           goBackTo="/sp-class-list"
                         />

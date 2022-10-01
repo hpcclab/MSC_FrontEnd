@@ -77,11 +77,13 @@ const UploadFiles = () => {
                         title="Name"
                         label="Enter Name"
                         handleInput={handleNameChange}
+                        required="*"
                       />
                       <InputBox
                         title="Description"
                         label="Enter Description"
                         handleInput={handleDescChange}
+                        required=""
                       />
                       <UploadArea acceptType="" title="Source" setFile={setFile} setFileName={setFileName} fileName={fileName}/>
                       

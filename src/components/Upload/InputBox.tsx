@@ -5,6 +5,7 @@ const InputBox: React.FC<{
   title: string;
   handleInput: (e: any) => void;
   label: string;
+  required: string;
 }> = (props) => {
   return (
     <>
@@ -22,7 +23,7 @@ const InputBox: React.FC<{
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="h4" component="div">
-                {props.title}
+                {props.title} {props.required}
               </Typography>
               <TextField
                 fullWidth

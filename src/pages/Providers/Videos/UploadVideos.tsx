@@ -273,11 +273,13 @@ const UploadVideos = () => {
                         title="Name"
                         label="Enter Name"
                         handleInput={handleNameChange}
+                        required="*"
                       />
                       <InputBox
                         title="Description"
                         label="Enter Description"
                         handleInput={handleDescChange}
+                        required=""
                       />
                       <UploadArea
                         acceptType="video/mp4"
