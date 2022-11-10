@@ -59,7 +59,7 @@ const FileItem: React.FC<{
                 onClick={handleDownloadRequest}
                 variant="contained"
                 disableElevation
-                sx={{ ml: 3, mt: 1 }}
+                sx={{ ml: 3, mt: 1, float: 'right' }}
               >
                 <Typography sx={{ cursor: "pointer" }} variant="body2">
                   Download

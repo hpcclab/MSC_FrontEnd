@@ -59,6 +59,7 @@ const SingleItem: React.FC<{
               {props.state !== "TASK" && props.state !== "LOGICAL" && (
                 <>
                   <Button
+                    sx={{float: 'right'}}
                     color="error"
                     disabled={
                       (props.title === "example.video" ||
