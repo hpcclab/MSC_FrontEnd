@@ -406,6 +406,22 @@ const UploadObjects = () => {
                             spacing={2}
                           >
                             <Grid item xs>
+                              <Typography
+                                display="inline"
+                                variant="h4"
+                                color={"black"}
+                              >
+                                Default Class
+                              </Typography>
+
+                              <Typography
+                                display="inline"
+                                variant="h4"
+                                color={"red"}
+                              >
+                                {" "}
+                                *
+                              </Typography>
                               <FormControl fullWidth>
                                 <InputLabel id="demo-simple-select-label">
                                   Default Class Name
@@ -494,7 +510,9 @@ const UploadObjects = () => {
                         handleSubmit={handleUploadFile}
                         backDisabled={progress !== 0 && progress !== 100}
                         submitDisabled={
-                          (progress !== 0 && progress !== 100) || name === "" || chosenClass === ""
+                          (progress !== 0 && progress !== 100) ||
+                          name === "" ||
+                          chosenClass === ""
                         }
                         submitTitle="Upload File"
                         goBackTo="/sp-file-list"

@@ -22,9 +22,10 @@ const InputBox: React.FC<{
         >
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
-              <Typography gutterBottom variant="h4" component="div">
-                {props.title} {props.required}
+              <Typography display="inline" variant="h4" component="div">
+                {props.title} 
               </Typography>
+              <Typography display="inline" variant="h4" color={"red"}>  {props.required}</Typography>
               <TextField
                 fullWidth
                 id="outlined-textarea"

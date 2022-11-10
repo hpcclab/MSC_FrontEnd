@@ -512,7 +512,10 @@ const UploadFunctions = () => {
                               <Grid item xs={12} sm container>
                                 <FormControl>
                                   <FormLabel id="demo-controlled-radio-buttons-group">
-                                    Execution *
+                                  <Typography display="inline" variant="h4" color="black">Execution</Typography>
+                                  
+                                  <Typography display="inline" variant="h4" color={"red"}>  *</Typography>
+
                                   </FormLabel>
                                   <RadioGroup
                                     aria-labelledby="demo-controlled-radio-buttons-group"
@@ -589,7 +592,12 @@ const UploadFunctions = () => {
                             spacing={2}
                           >
                             <Grid item xs>
+                            <Typography display="inline" variant="h4" color={"black"}>  Output Class</Typography>
+
+                            <Typography display="inline" variant="h4" color={"red"}>  *</Typography>
+
                               <FormControl fullWidth>
+
                                 <InputLabel id="demo-simple-select-label">
                                   Output Class Name
                                 </InputLabel>

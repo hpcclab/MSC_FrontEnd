@@ -46,9 +46,12 @@ const SingleItem: React.FC<{
                 <Typography variant="body2" gutterBottom sx={{ height: 60 }}>
                   {props.desc}
                 </Typography>
-                <Typography variant="subtitle2" sx={{ height: 5 }}>
-                  {props.videoId}
-                </Typography>
+                {
+                (props.videoId !== "" && props.videoId !== null && props.videoId !== undefined)  && (
+                  <Typography variant="subtitle2" sx={{ height: 5 }}>
+                    Id - {props.videoId}
+                  </Typography>
+                )}
               </Grid>
             </Grid>
 
@@ -71,11 +74,26 @@ const SingleItem: React.FC<{
                           "Do you really want to delete this item?"
                         )
                       ) {
-                        if (props.videoId !== '') {
-                          axios.delete((window as any).ENV.OC_API + "/api/objects/" + props.videoId).then(function (r) {window.location.reload()})
-                        }
-                        else {
-                          axios.delete((window as any).ENV.OC_API + "/api/classes/" + props.title).then(function (r) {window.location.reload()})
+                        if (props.videoId !== "") {
+                          axios
+                            .delete(
+                              (window as any).ENV.OC_API +
+                                "/api/objects/" +
+                                props.videoId
+                            )
+                            .then(function (r) {
+                              window.location.reload();
+                            });
+                        } else {
+                          axios
+                            .delete(
+                              (window as any).ENV.OC_API +
+                                "/api/classes/" +
+                                props.title
+                            )
+                            .then(function (r) {
+                              window.location.reload();
+                            });
                         }
                       }
                     }}

@@ -35,7 +35,7 @@ const ViewSingleClass = () => {
         (currentPage - 1) * itemCount
     );
     setTotalItems(res.data.total);
-    setData(res.data.items);
+    setData(res.data.items.filter((item: any) => item.embeddedRecord !== undefined));
   };
 
   useEffect(() => {

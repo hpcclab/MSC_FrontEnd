@@ -23,7 +23,9 @@ const UploadArea: React.FC<{
               theme.palette.mode === "dark" ? "#1A2027" : "#fff",
           }}
         >
-          <Typography variant="h5">{props.title}</Typography>
+          <Typography variant="h5" display="inline">{props.title}</Typography>
+          <Typography variant="h5" display="inline" color="red"> *</Typography>
+
         </Paper>
         <Dropzone
           accept={props.acceptType}
