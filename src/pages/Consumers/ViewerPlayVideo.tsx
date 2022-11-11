@@ -29,7 +29,12 @@ type urlParams = {
   videoId: string;
 };
 
+
+
+
 const ViewerPlayVideo = () => {
+  const [newVideoId, setNewVideoId] = useState("")
+
   const videoId = useParams<urlParams>().videoId;
   const [videoData, setVideoData] = useState<any>([]);
   const [taskStatus, setTaskStatus] = useState("");
@@ -38,6 +43,7 @@ const ViewerPlayVideo = () => {
     const res = await axios.get(
       (window as any).ENV.OC_API + "/api/objects/" + videoId
     );
+    console.log(res.data)
     setVideoData(res.data);
     setTaskStatus(res.data.status.taskStatus);
     setObjClass(res.data.cls);
@@ -310,7 +316,7 @@ const ViewerPlayVideo = () => {
                       <Button
                         fullWidth
                         variant="contained"
-                        disabled={functions[0][0] === ""}
+                        disabled={functions[0][0] === "" || newVideoId !== ""}
                         onClick={() => {
                           axios.get(
                             (window as any).ENV.CDS_API +
@@ -318,14 +324,28 @@ const ViewerPlayVideo = () => {
                               videoId +
                               ":" +
                               functions[0][0] +
-                              "()()"
+                              "()()?await=true"
                           ).then(function (r) {
+                            console.log(r)
                             alert("The function has been applied. It may take a while for the videos list to be updated after refreshing.")
+                            setNewVideoId(r.data.id)
                           });
                         }}
                       >
                         Apply
                       </Button>
+                      {
+                        
+                        newVideoId !== "" && (
+                          <Button 
+                          sx={{mt: 2}}
+                          fullWidth
+                        variant="contained"
+                          href={"/v-player/" + newVideoId}>
+                            Watch Video With Applied Function
+                          </Button>
+                        )
+                      }
                     </>
                   ) : (
                     <VideoInfo

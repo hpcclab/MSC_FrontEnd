@@ -70,7 +70,7 @@ const UploadObjects = () => {
   const [chosenClass, setChosenClass] = useState("");
 
   const classSelection = classes.map((item: any) => (
-    <MenuItem value={item.name}>{item.name}</MenuItem>
+    <MenuItem value={item._key}>{item._key}</MenuItem>
   ));
 
   var keyArray: any = [];

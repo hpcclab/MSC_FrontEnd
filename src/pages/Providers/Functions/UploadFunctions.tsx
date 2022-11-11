@@ -198,7 +198,7 @@ const UploadFunctions = () => {
   }, [currentPage]);
 
   const renderClassSelection = data.map((item: any) => (
-    <MenuItem value={item.name}>{item.name}</MenuItem>
+    <MenuItem value={item._key}>{item._key}</MenuItem>
   ));
 
   const showRefs = () => {
@@ -296,7 +296,7 @@ const UploadFunctions = () => {
   const [chosenClass, setChosenClass] = useState("");
 
   const classSelection = classes.map((item: any) => (
-    <MenuItem value={item.name}>{item.name}</MenuItem>
+    <MenuItem value={item._key}>{item._key}</MenuItem>
   ));
 
   const renderFunctions = () => {

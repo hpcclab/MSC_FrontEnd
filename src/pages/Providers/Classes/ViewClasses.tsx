@@ -41,7 +41,7 @@ const ViewClasses = () => {
             return (
               <>
                 <SingleItem
-                  title={item.name}
+                  title={item._key}
                   desc={item.stateType}
                   state={item.objectType}
                   videoId={''}

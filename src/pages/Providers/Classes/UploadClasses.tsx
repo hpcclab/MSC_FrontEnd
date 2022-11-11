@@ -61,7 +61,7 @@ const UploadClasses = () => {
   }, [currentPage]);
 
   const renderFunctionSelections = data.map((item: any) => (
-    <MenuItem value={item.name}>{item.name}</MenuItem>
+    <MenuItem value={item._key}>{item._key}</MenuItem>
   ));
 
   const handleAddition = () => {
@@ -151,7 +151,7 @@ const UploadClasses = () => {
   }
 
   const renderClassSelection = classList.map((item: any) => (
-    <MenuItem value={item.name}>{item.name}</MenuItem>
+    <MenuItem value={item._key}>{item._key}</MenuItem>
   ));
 
   const handleNameChange = (e: any) => {

@@ -118,7 +118,7 @@ const UploadVideos = () => {
     //console.log(thumbnailURL, 69);
     await axios
       .post((window as any).ENV.OC_API + "/api/object-construct", {
-        cls: "example.video",
+        cls: "example.video.mp4",
         embeddedRecord: {
           title: name,
           desc: desc,
@@ -213,7 +213,7 @@ const UploadVideos = () => {
                       <TextField
                         fullWidth
                         id="outlined-textarea"
-                        label="Default Value (Fill)"
+                        label="Default Value"
                         placeholder="Input Variable Name"
                         multiline
                         onChange={(e) => {

@@ -62,7 +62,7 @@ const SingleItem: React.FC<{
                     sx={{float: 'right'}}
                     color="error"
                     disabled={
-                      (props.title === "example.video" ||
+                      (props.title === "example.video.mp4" ||
                         props.title === "example.video.hls" ||
                         props.title === "builtin.basic.file") &&
                       props.state === "SIMPLE"

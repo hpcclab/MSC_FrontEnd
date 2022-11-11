@@ -96,7 +96,7 @@ const Dashboard = () => {
             return (
               <>
                 <SingleItem
-                  title={item.name}
+                  title={item._key}
                   desc={item.outputCls}
                   state={item.type}
                   videoId={item.id}

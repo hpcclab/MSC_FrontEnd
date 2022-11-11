@@ -24,7 +24,7 @@ const FillDownInput: React.FC<{
   useDropDown: boolean;
 }> = (props) => {
   const renderSelections = props.selectData.map((item: any) => (
-    <MenuItem value={item.name}>{item.name}</MenuItem>
+    <MenuItem value={item._key}>{item._key}</MenuItem>
   ));
 
   const renderItems = () => {

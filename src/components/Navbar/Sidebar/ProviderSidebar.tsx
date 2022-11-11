@@ -14,7 +14,7 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
     const res = await axios.get(
       (window as any).ENV.OC_API + "/api/classes?limit=10000&offset=0"
     );
-    setData(res.data.items.filter((item: any) => item.name !== "example.video.hls" && item.name !== "builtin.basic.file"));
+    setData(res.data.items.filter((item: any) => item._key !== "example.video.hls" && item._key !== "builtin.basic.file"));
   };
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const ProviderSidebar: React.FC<{ section: string|undefined; url: string|undefin
       {
         data.map((item: any) => {
           return (
-            <ClassesSidebar name={item.name} url={props.url} redirect={"/sp-class/"+item.name} />
+            <ClassesSidebar name={item._key} url={props.url} redirect={"/sp-class/"+item._key} />
           )
         })
       }
