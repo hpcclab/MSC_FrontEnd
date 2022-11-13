@@ -23,7 +23,7 @@ const VVideos = () => {
       (window as any).ENV.OC_API + "/api/classes/example.video.hls/objects?limit=" +
         itemCount +
         "&offset=" +
-        (currentPage - 1) * itemCount
+        (currentPage - 1) * itemCount +"&desc=true&sort=status.crtTs"
     );
     setTotalItems(res.data.total);
     setData(res.data.items);

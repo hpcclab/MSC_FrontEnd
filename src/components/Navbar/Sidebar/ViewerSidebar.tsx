@@ -29,7 +29,7 @@ const ViewerSidebar = () => {
       setLoading(true);
       const res = await axios.get(
         (window as any).ENV.OC_API +
-          "/api/classes/example.video.hls/objects?limit=10000&offset=0"
+          "/api/classes/example.video.hls/objects?limit=10000&offset=0&desc=true&sort=status.crtTs"
       );
       setData(
         res.data.items.filter((item: any) => item.embeddedRecord !== undefined)
